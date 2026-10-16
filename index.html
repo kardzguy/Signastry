@@ -270,7 +270,7 @@ var signer=null,SIGNERS={"Dana Okafor":"1111","Marcus Hale":"2222","Lena Ortiz":
 function earned(n){return Math.round(S.ledger.filter(function(l){return l.signer===n}).reduce(function(a,l){return a+l.pay},0)*100)/100}
 function withdrawn(n){return Math.round(S.withdrawals.filter(function(w){return w.signer===n}).reduce(function(a,w){return a+w.amount},0)*100)/100}
 function bal(n){return Math.round((earned(n)-withdrawn(n))*100)/100}
-var REF_PCT=10,APP_URL="https://claude.ai/artifact/F4Jt6ZX3DuAoZQ2za6yQnv";
+var REF_PCT=10,APP_URL=location.origin+location.pathname;
 function allSigners(){return Object.keys(SIGNERS).concat(Object.keys(S.accts))}
 function refCode(n){return "REF-"+(n.replace(/[^A-Za-z]/g,"").slice(0,4).toUpperCase())+("000"+(+pid(n)%10000)).slice(-4)}
 function refOwner(c){return allSigners().find(function(n){return refCode(n)===c})}

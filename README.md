@@ -4,7 +4,9 @@ Pilot demo of Signastry, a registry for autographs, memorabilia and graded cards
 
 ## Try the demo
 
-Open `index.html` in a browser. It is a single self-contained page with no build step.
+Live test site: https://test.signastry.com (the demo) and https://test.signastry.com/vault/ (the Vault).
+
+Each page is a single self-contained HTML file with no build step: `index.html` is the demo and `vault/index.html` is the Vault.
 
 Demo sign-ins (on the start page, tap **Sign in** and pick a role):
 
