@@ -321,6 +321,7 @@ body.landing header{height:64px}
 #hnav{overflow:visible}
 .bkbar i{background:var(--accent)}
 .hero h1,.sgpage h1{text-transform:none;font-family:var(--display);font-weight:900;letter-spacing:-.02em}
+.sealhelp{margin:0 0 14px}.sealgrid{display:grid;grid-template-columns:repeat(auto-fill,2in);gap:.15in}.seallbl{width:2in;height:2.6in;box-sizing:border-box;border:1px dashed #9AA6B6;padding:.1in .12in;display:flex;flex-direction:column;align-items:center;text-align:center;background:#fff;color:#0E1726;break-inside:avoid;overflow:hidden}.sealtop{display:flex;align-items:center;gap:5px;width:100%;font:700 11px/1 "Comfortaa",sans-serif}.sealtop em{margin-left:auto;font:800 10px/1 "Archivo",sans-serif;font-style:normal;color:#1E5A8A}.sealqr{width:1.55in;height:1.55in;margin:.06in 0 .04in}.seallbl b{font:800 15px/1.1 "Archivo",sans-serif}.seallbl small{display:block;font-size:9px;line-height:1.3;color:#5A6577;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}@media print{body.printseal header,body.printseal #tabs,body.printseal .insbar,body.printseal .sealhelp,body.printseal #toast,body.printseal #logoctl,body.printseal #lb{display:none!important}body.printseal,body.printseal .wrap{background:#fff!important;max-width:none;padding:0}body.printseal .sealgrid{gap:.1in}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -1084,6 +1085,19 @@ function fin(x,y){x+=m;y+=m;return '<rect x="'+x+'" y="'+y+'" width="7" height="
 var lx=ls+m,pad=L*0.08;
 return '<svg viewBox="0 0 '+N+' '+N+'" width="100%" height="100%" shape-rendering="crispEdges" role="img" aria-label="Signastry QR seal"><rect width="'+N+'" height="'+N+'" fill="#fff"/><path d="'+d+'" fill="#000"/>'+fin(0,0)+fin(n-7,0)+fin(0,n-7)+'<rect x="'+lx+'" y="'+lx+'" width="'+L+'" height="'+L+'" fill="#fff"/><image href="/signastry-logo.png" x="'+(lx+pad)+'" y="'+(lx+pad)+'" width="'+(L-2*pad)+'" height="'+(L-2*pad)+'" preserveAspectRatio="xMidYMid meet"/></svg>'}
 drawQRs=function(){document.querySelectorAll("[data-qr]").forEach(function(el){if(el.firstChild)return;var s=brandQR(el.getAttribute("data-qr"));if(s)el.innerHTML=s})};
+/* Print seals: matching item and certificate seals at label size */
+var sealView=null;
+function sealLabel(i,kind){return '<div class="seallbl"><div class="sealtop"><img src="/signastry-logo.png" alt="" width="18" height="18"><span>Signastry</span><em>'+kind+'</em></div><div class="sealqr" data-qr="'+esc(scanUrl(i))+'" role="img" aria-label="QR seal for '+esc(i.id)+'"></div><b>'+esc(i.id)+'</b><small>'+esc(i.name)+'</small><small>Scan to check its record</small></div>'}
+function sealSheet(){var all=sealView==="ALL",list=all?mine():mine().filter(function(x){return x.id===sealView});
+return '<div class="insbar"><button class="btn ghost" data-sealclose="1">Back to my vault</button><button class="btn" data-insprint="1">Print seals</button>'+(all?'':'<button class="btn ghost" data-seal="ALL">Seals for all my items</button>')+'</div>'+
+'<div class="sealhelp"><h2>'+(all?'Seals for all your items':'Seals for '+esc(list[0]?list[0].name:""))+'</h2><p class="meta">Each item gets two matching seals: one for the item and one for its certificate. Print on adhesive label paper at 100% scale, then cut along the dashed lines. For the strongest protection, use tamper-evident (void) label stock that leaves a mark if someone peels it off.</p></div>'+
+'<div class="sealgrid">'+list.map(function(i){return sealLabel(i,"Item")+sealLabel(i,"Certificate")}).join("")+'</div>'}
+var _qrBlockS=qrBlock;qrBlock=function(i){var h=_qrBlockS(i);return role==="member"&&i.owner===ME?h+'<button class="btn ghost" data-seal="'+i.id+'" style="margin:0 0 10px">Print seals</button>':h};
+var _vaultS=vault;vault=function(){return sealView&&role==="member"?sealSheet():_vaultS()};
+var _renderS=render;render=function(){if(tab!=="vault"||role!=="member")sealView=null;document.body.classList.toggle("printseal",!!sealView);_renderS()};
+document.getElementById("view").addEventListener("click",function(e){var t=e.target.closest("button");if(!t)return;var d=t.dataset;
+if(d.seal&&role==="member"){sealView=d.seal;tab="vault";render();scrollTo(0,0);return}
+if(d.sealclose){sealView=null;render();return}});
 /* Shared online saving (Supabase). Everyone on the site sees the same data.
    Falls back to this browser only if the database can't be reached. */
 (function(){
