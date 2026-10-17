@@ -150,6 +150,7 @@ nav.sgjump{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 4px;background:none
 .sgfirst{background:var(--band);color:#fff;border-radius:14px;padding:14px 16px;margin:14px 0}.sgfirst b{font:italic 800 22px/1.2 var(--display);text-transform:uppercase}.sgfirst p{margin:6px 0 0;color:#fff}
 .fsbadge{display:inline-flex;align-items:center;gap:6px;background:var(--gold);color:#14243B;font-weight:800;font-size:14px;padding:5px 12px;border-radius:99px}.fsrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 14px}.fsrow span{font-size:15px;color:var(--muted)}
 .insrow{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:12px 16px;margin:0 0 14px}.insrow div{display:flex;flex-direction:column;flex:1 1 220px}.insrow span{font-size:15px;color:var(--muted)}.insrow .btn{margin-top:0}.insbar{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 14px}.insbar .btn{margin-top:0}.insr{background:#fff;color:#14243B;border-radius:14px;padding:20px}.inshead{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-bottom:2px solid #14243B;padding-bottom:12px;margin-bottom:8px}.inshead h2{margin:0}.inshead p{margin:4px 0 0;color:#4A5B70;font-size:14px}.instot{text-align:right}.instot span{display:block;font-size:13px;color:#4A5B70}.instot b{display:block;font-size:26px}.insitem{display:grid;grid-template-columns:120px minmax(0,1fr);gap:14px;padding:14px 0;border-bottom:1px solid #D5DFEA;break-inside:avoid}.insitem img,.insnoph{width:120px;height:120px;object-fit:cover;border-radius:8px;background:#EEF3F8}.insnoph{display:flex;align-items:center;justify-content:center;text-align:center;font-size:12px;color:#4A5B70}.insitem h3{margin:0 0 6px;font-size:17px}.insitem dl{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:2px 10px;margin:0;font-size:14px}.insitem dt{color:#4A5B70}.insitem dd{margin:0}.insnote{font-size:13px;color:#4A5B70;margin-top:14px}.stolencard{margin:10px 0;border-color:var(--bad)}.stolenb{border-color:var(--bad);background:var(--warn-bg)}@media (max-width:480px){.insitem{grid-template-columns:84px minmax(0,1fr)}.insitem img,.insnoph{width:84px;height:84px}}@media print{body.printins header,body.printins #logoctl,body.printins #tabs,body.printins .insbar,body.printins #toast,body.printins #lb{display:none!important}body.printins{background:#fff!important}body.printins .insr{padding:0}}
+.lgnudge{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:0 0 14px;border-color:var(--seal)}.lgnudge div{display:flex;flex-direction:column;flex:1 1 220px}.lgnudge span{font-size:15px;color:var(--muted)}.lgnudge .btn{margin-top:0}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -778,6 +779,48 @@ if(d.insprint){window.print();return}
 if(d.stole){var it=S.items.find(function(x){return x.id===d.stole});if(!it||it.owner!==ME)return;if(stoleArm!==it.id){stoleArm=it.id;t.textContent="Tap again to report it stolen";return}stoleArm=null;
 it.stolen={date:today()};it.hist.push([today(),"Reported stolen by the owner","Private owner",it.loc]);S.listings.forEach(function(l){if(l.item===it.id&&l.status==="active")l.status="closed"});(S.offers||[]).forEach(function(o){if(o.item===it.id&&(o.status==="open"||o.status==="countered"))o.status="closed"});save();toast(it.id+" reported stolen. Lookups and QR scans now show it.");render();return}
 if(d.recov){var r=S.items.find(function(x){return x.id===d.recov});if(!r||r.owner!==ME)return;delete r.stolen;r.hist.push([today(),"Recovered by the owner","Private owner",r.loc]);save();toast(r.id+" marked as recovered.");render();return}});
+/* Signer legacy: name a beneficiary and estate representative */
+if(!S.legacy)S.legacy={};
+var lgEdit=false,estArm=null;
+function legacyOf(n){return S.legacy[n]||null}
+function legacyView(){var L=legacyOf(signer),show=lgEdit||!L;
+var h='<h2>Your legacy</h2><p class="sub">Choose who receives your Signastry earnings if you pass away. Your royalties and referral income can keep paying them for as long as your account stays open.</p>';
+if(L&&L.transferred)h+='<div class="banner idvb"><b>This account was transferred to your estate</b> on '+esc(L.transferred)+'. Earnings now go to '+esc(L.ben.name)+'.</div>';
+if(!show){h+='<div class="card"><div class="pay"><div>Beneficiary<div class="meta">'+esc(L.ben.rel)+' · '+esc(L.ben.contact)+'</div></div><b>'+esc(L.ben.name)+'</b></div>'+
+(L.rep&&L.rep.name?'<div class="pay"><div>Estate representative<div class="meta">Can confirm items you signed and manage the account · '+esc(L.rep.contact)+'</div></div><b>'+esc(L.rep.name)+'</b></div>':'<div class="pay"><div>Estate representative<div class="meta">Not named. Your beneficiary would manage the account.</div></div><b>None</b></div>')+
+'<p class="meta">Signed by '+esc(L.sig)+' on '+esc(L.date)+'. You can change this at any time.</p><button class="btn ghost" data-lgedit="1">Change</button></div>';
+return h+legacyNote()}
+h+='<div class="card"><h3 style="margin-top:0">Beneficiary</h3><p class="meta">The person who receives your earnings.</p>'+
+'<label for="lb-n">Full legal name</label><input id="lb-n" autocomplete="off" value="'+esc(L?L.ben.name:"")+'">'+
+'<label for="lb-r">Relationship to you</label><select id="lb-r">'+["","Spouse or partner","Child","Parent","Sibling","Other family","Trust","Other"].map(function(o){return '<option'+(L&&L.ben.rel===o?' selected':'')+'>'+o+'</option>'}).join("")+'</select>'+
+'<label for="lb-c">Email or phone</label><input id="lb-c" autocomplete="off" value="'+esc(L?L.ben.contact:"")+'">'+
+'<h3>Estate representative (optional)</h3><p class="meta">Someone who can confirm or reject items you signed and manage the account on your beneficiary\'s behalf, such as an agent, attorney or executor.</p>'+
+'<label for="lr-n">Full name</label><input id="lr-n" autocomplete="off" value="'+esc(L&&L.rep?L.rep.name:"")+'">'+
+'<label for="lr-c">Email or phone</label><input id="lr-c" autocomplete="off" value="'+esc(L&&L.rep?L.rep.contact:"")+'">'+
+'<label class="chk" style="margin-top:16px"><input type="checkbox" id="lg-ok"><span>I want my Signastry earnings to go to the beneficiary above if I pass away, and I understand Signastry will ask for proof, such as a death certificate and documents showing who represents my estate, before transferring the account.</span></label>'+
+'<label for="lg-sig">Type your full name to sign</label><input id="lg-sig" autocomplete="off">'+
+'<div id="lgerr" class="err"></div><button class="btn" id="lggo">Save my legacy</button>'+(L?' <button class="btn ghost" data-lgedit="0">Cancel</button>':'')+'</div>';
+return h+legacyNote()}
+function legacyNote(){return '<p class="meta" style="margin-top:14px">Keep this consistent with your will or estate plan. If they disagree, Signastry may ask your estate\'s legal representative to confirm who should receive your earnings.</p>'}
+function legacyAdmin(){var all=allSigners(),set=all.filter(function(n){return S.legacy[n]});
+return '<h3>Signer beneficiaries</h3><div class="card" style="margin:8px 0"><p class="meta" style="margin-top:0">'+set.length+' of '+all.length+' signers have named a beneficiary.</p>'+
+(set.length?set.map(function(n){var L=S.legacy[n];return '<div class="pay"><div>'+esc(n)+'<div class="meta">Beneficiary '+esc(L.ben.name)+' ('+esc(L.ben.rel)+')'+(L.rep&&L.rep.name?' · representative '+esc(L.rep.name):'')+' · '+esc(L.date)+'</div></div>'+(L.transferred?'<span class="badge ok">Transferred '+esc(L.transferred)+'</span>':'<button class="btn ghost" data-estate="'+esc(n)+'" style="margin-top:0">Record estate transfer</button>')+'</div>'}).join(""):'')+
+'<p class="meta">Record a transfer only after you receive and verify a death certificate and proof of who represents the estate.</p></div>'}
+var _signerViewL=signerView;signerView=function(){var h=_signerViewL();if(!signer)return h;
+h=h.replace('data-sub="legal" aria-pressed','data-sub="legacy" aria-pressed="'+(sgSub==="legacy")+'">Legacy</button><button class="chip" data-sub="legal" aria-pressed');
+if(sgSub==="legacy"){var a=h.indexOf('<div class="chips"'),b=h.indexOf('</div>',a)+6;return h.slice(0,b)+legacyView()}
+if(sgSub==="home"&&!legacyOf(signer))h=h.replace('<div class="chips" style="margin:0 0 14px">','<div class="card lgnudge"><div><b>Protect your earnings for your family</b><span>Name who receives your royalties and referral income if you pass away.</span></div><button class="btn ghost" data-sub="legacy">Name a beneficiary</button></div><div class="chips" style="margin:0 0 14px">');
+return h};
+var _adminViewL=adminView;adminView=function(){return _adminViewL()+legacyAdmin()};
+document.getElementById("view").addEventListener("click",function(e){var t=e.target.closest("button");if(!t)return;var d=t.dataset;
+if(d.lgedit!==undefined){lgEdit=d.lgedit==="1";render();return}
+if(t.id==="lggo"&&signer){var bn=gv("lb-n"),br=gv("lb-r"),bc=gv("lb-c"),rn=gv("lr-n"),rc=gv("lr-c"),sig=gv("lg-sig"),er=document.getElementById("lgerr");
+if(!bn||!br||!bc){er.textContent="Enter your beneficiary's full name, relationship and how to reach them.";return}
+if(rn&&!rc){er.textContent="Enter how to reach your estate representative.";return}
+if(!document.getElementById("lg-ok").checked){er.textContent="Tick the box to confirm your choice.";return}
+if(sig.replace(/\s+/g," ").toLowerCase()!==signer.toLowerCase()){er.textContent="Type your full name exactly as it appears on your account: "+signer+".";return}
+var prev=S.legacy[signer];S.legacy[signer]={ben:{name:bn,rel:br,contact:bc},rep:rn?{name:rn,contact:rc}:null,sig:sig,date:today(),transferred:prev&&prev.transferred||null};lgEdit=false;save();toast("Your legacy is saved.");render();return}
+if(d.estate&&role==="admin"){var L=S.legacy[d.estate];if(!L)return;if(estArm!==d.estate){estArm=d.estate;t.textContent="Tap again to confirm transfer";return}estArm=null;L.transferred=today();save();toast("Estate transfer recorded for "+d.estate+".");render();return}});
 /* Shared online saving (Supabase). Everyone on the site sees the same data.
    Falls back to this browser only if the database can't be reached. */
 (function(){
