@@ -57,26 +57,3 @@ if(t&&t.dataset.h){var a=t.dataset.h;if(a==="terms"||a==="privacy"){toast("Our t
 if(t&&t.id==="hqgo"){hLook();return}
 if(hOpen!==null&&!e.target.closest("#hnav")){hOpen=null;hdraw()}});
 document.addEventListener("keydown",function(e){if(e.key==="Escape"&&(hOpen!==null||hMob)){hOpen=null;hMob=false;hdraw()}if(e.key==="Enter"&&e.target&&e.target.id==="hq"){e.preventDefault();hLook()}});
-/* Branded QR seals: blue corner markers and the Signastry logo in the middle */
-function brandQR(text){if(!window.qrcode)return "";var q;try{q=qrcode(0,"H");q.addData(text);q.make()}catch(e){return ""}
-var n=q.getModuleCount(),m=2,N=n+2*m,L=Math.ceil(n*0.26);if(L%2!==n%2)L++;var ls=(n-L)/2;
-function inF(r,k){return (r<8&&k<8)||(r<8&&k>=n-8)||(r>=n-8&&k<8)}
-function inL(r,k){return r>=ls-0.5&&r<ls+L+0.5&&k>=ls-0.5&&k<ls+L+0.5}
-var d="";for(var r=0;r<n;r++)for(var k=0;k<n;k++)if(q.isDark(r,k)&&!inF(r,k)&&!inL(r,k))d+="M"+(k+m)+" "+(r+m)+"h1v1h-1z";
-function fin(x,y){x+=m;y+=m;return '<rect x="'+x+'" y="'+y+'" width="7" height="7" fill="#2AA7E0"/><rect x="'+(x+1)+'" y="'+(y+1)+'" width="5" height="5" fill="#fff"/><rect x="'+(x+2)+'" y="'+(y+2)+'" width="3" height="3" fill="#2AA7E0"/>'}
-var lx=ls+m,pad=L*0.08;
-return '<svg viewBox="0 0 '+N+' '+N+'" width="100%" height="100%" shape-rendering="crispEdges" role="img" aria-label="Signastry QR seal"><rect width="'+N+'" height="'+N+'" fill="#fff"/><path d="'+d+'" fill="#000"/>'+fin(0,0)+fin(n-7,0)+fin(0,n-7)+'<rect x="'+lx+'" y="'+lx+'" width="'+L+'" height="'+L+'" fill="#fff"/><image href="/signastry-logo.png" x="'+(lx+pad)+'" y="'+(lx+pad)+'" width="'+(L-2*pad)+'" height="'+(L-2*pad)+'" preserveAspectRatio="xMidYMid meet"/></svg>'}
-drawQRs=function(){document.querySelectorAll("[data-qr]").forEach(function(el){if(el.firstChild)return;var s=brandQR(el.getAttribute("data-qr"));if(s)el.innerHTML=s})};
-/* Print seals: matching item and certificate seals at label size */
-var sealView=null;
-function sealLabel(i,kind){return '<div class="seallbl"><div class="sealtop"><img src="/signastry-logo.png" alt="" width="18" height="18"><span>Signastry</span><em>'+kind+'</em></div><div class="sealqr" data-qr="'+esc(scanUrl(i))+'" role="img" aria-label="QR seal for '+esc(i.id)+'"></div><b>'+esc(i.id)+'</b><small>'+esc(i.name)+'</small><small>Scan to check its record</small></div>'}
-function sealSheet(){var all=sealView==="ALL",list=all?mine():mine().filter(function(x){return x.id===sealView});
-return '<div class="insbar"><button class="btn ghost" data-sealclose="1">Back to my vault</button><button class="btn" data-insprint="1">Print seals</button>'+(all?'':'<button class="btn ghost" data-seal="ALL">Seals for all my items</button>')+'</div>'+
-'<div class="sealhelp"><h2>'+(all?'Seals for all your items':'Seals for '+esc(list[0]?list[0].name:""))+'</h2><p class="meta">Each item gets two matching seals: one for the item and one for its certificate. Print on adhesive label paper at 100% scale, then cut along the dashed lines. For the strongest protection, use tamper-evident (void) label stock that leaves a mark if someone peels it off.</p></div>'+
-'<div class="sealgrid">'+list.map(function(i){return sealLabel(i,"Item")+sealLabel(i,"Certificate")}).join("")+'</div>'}
-var _qrBlockS=qrBlock;qrBlock=function(i){var h=_qrBlockS(i);return role==="member"&&i.owner===ME?h+'<button class="btn ghost" data-seal="'+i.id+'" style="margin:0 0 10px">Print seals</button>':h};
-var _vaultS=vault;vault=function(){return sealView&&role==="member"?sealSheet():_vaultS()};
-var _renderS=render;render=function(){if(tab!=="vault"||role!=="member")sealView=null;document.body.classList.toggle("printseal",!!sealView);_renderS()};
-document.getElementById("view").addEventListener("click",function(e){var t=e.target.closest("button");if(!t)return;var d=t.dataset;
-if(d.seal&&role==="member"){sealView=d.seal;tab="vault";render();scrollTo(0,0);return}
-if(d.sealclose){sealView=null;render();return}});
