@@ -25,5 +25,8 @@ Demo sign-ins (on the start page, tap **Sign in** and pick a role):
 
 ## Notes
 
-- Demo only: no payments are processed, and data is saved in the viewer's own browser.
+- Demo only: no payments are processed.
+- Test data is shared: both pages save to a Supabase test database, so every visitor sees the same items, members and activity, with live updates. The demo and the Vault are kept separate. If the database can't be reached, a page falls back to saving in the viewer's own browser.
+- The test database is open to anyone using the site (sample data only). Before launch, switch to real member accounts with per-member access rules and a separate live database.
+- Database setup: run `supabase/setup.sql` once in the Supabase SQL Editor. The sync code lives in `supabase/sync-snippet.js` and is inlined at the end of each page.
 - The legal documents are templates and need review by an attorney before launch.

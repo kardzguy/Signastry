@@ -142,6 +142,7 @@ input,select{width:100%;font:inherit;padding:12px 14px;border:1px solid var(--li
 .newsnote{color:#fff;opacity:.8;font-size:13px;margin:0}
 @media (prefers-reduced-motion:no-preference){.toast{animation:up .25s ease-out}@keyframes up{from{opacity:0;transform:translate(-50%,8px)}}}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 <div class="wrap">
@@ -251,7 +252,7 @@ function mine(){return S.items.filter(function(i){return i.owner===ME})}
 function fees(p,it){var R=Math.round(p*S.fees.resale)/100,s=noSigner(it)?0:Math.round(R*S.fees.share)/100,k=S.fees.seller;return{f:Math.round((R+k)*100)/100,r:R,s:s,p:k}}
 function toast(m){if(bkNote){m+=" "+bkNote;bkNote=""}var t=document.getElementById("toast");t.textContent=m;t.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(function(){t.hidden=true},3200)}
 var LOGO_KEY="signastry-logo";
-function applyLogo(d){var box=document.getElementById("logo");box.textContent="";if(d){var im=document.createElement("img");im.alt="Your logo";im.src=d;box.appendChild(im)}
+function applyLogo(d){var box=document.getElementById("logo");box.textContent="";var im=document.createElement("img");im.alt="Signastry";im.src=d||"/signastry-logo.png";box.appendChild(im);
 document.getElementById("logoBtn").textContent=d?"Change logo":"Import logo";document.getElementById("logoRm").hidden=!d}
 var saved=null;try{saved=localStorage.getItem(LOGO_KEY)}catch(e){}
 applyLogo(saved);
@@ -577,6 +578,46 @@ var st=await d.doc("app/state").get(),qs=await d.collection("items").limit(1000)
 if(!st.exists&&!qs.docs.length){save();toast("Your vault is now saved online.")}else{applyRemote(st.exists?st.data():null,qs.docs.map(function(x){return x.data()}));render()}
 d.doc("app/state").onSnapshot(function(x){if(x.metadata.hasPendingWrites||!x.exists)return;applyRemote(x.data(),null)},function(){});
 d.collection("items").limit(1000).onSnapshot(function(q){if(q.metadata.hasPendingWrites)return;applyRemote(null,q.docs.map(function(x){return x.data()}))},function(){})}catch(e){toast("Online saving could not start. Changes stay in this browser.")}})();
+/* Shared online saving (Supabase). Everyone on the site sees the same data.
+   Falls back to this browser only if the database can't be reached. */
+(function(){
+var SB_URL="https://himwujrdazwkcvhgnpqj.supabase.co",SB_KEY="sb_publishable_6fFjXAfouauZn7tmdCu94g_p-h1l3u3",SPACE="vault";
+if(window.claude&&window.claude.use)return;
+if(!window.supabase||!window.supabase.createClient){toast("Online saving is unavailable right now. Changes stay in this browser.");return}
+var sb;try{sb=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:false,autoRefreshToken:false}})}catch(e){toast("Online saving is unavailable right now. Changes stay in this browser.");return}
+var ready=false,seq=0,pending=0,lastJ={},stJ="",pullT=null,warned=false;
+function sk(v){if(Array.isArray(v))return v.map(sk);if(v&&typeof v==="object"){var o={};Object.keys(v).sort().forEach(function(k){if(v[k]!==undefined)o[k]=sk(v[k])});return o}return v}
+function cj(v){return JSON.stringify(sk(v))}
+function stateOnly(){var o={};for(var k in S)if(k!=="items"&&k!=="_order")o[k]=S[k];o._order=S.items.map(function(i){return i.id});return o}
+function busy(){var a=document.activeElement;return a&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName)&&a.type!=="button"}
+function fail(e){if(!warned){warned=true;toast("Could not save online"+(e&&e.message?": "+e.message:"")+". Changes are kept in this browser.");setTimeout(function(){warned=false},15000)}}
+function push(){if(!ready)return;var rows=[],dels=[],ids=[];
+var st=cj(stateOnly());if(st!==stJ){stJ=st;rows.push({space:SPACE,path:"app/state",data:JSON.parse(st)})}
+var seen={};S.items.forEach(function(i){seen[i.id]=1;var j=cj(i);if(lastJ[i.id]!==j){lastJ[i.id]=j;ids.push(i.id);rows.push({space:SPACE,path:"items/"+i.id,data:JSON.parse(j)})}});
+Object.keys(lastJ).forEach(function(id){if(!seen[id]){delete lastJ[id];dels.push(id)}});
+if(!rows.length&&!dels.length)return;seq++;pending++;var ps=[];
+if(rows.length)ps.push(sb.from("docs").upsert(rows,{onConflict:"space,path"}));
+if(dels.length)ps.push(sb.from("docs").delete().eq("space",SPACE).in("path",dels.map(function(id){return "items/"+id})));
+Promise.all(ps).then(function(rs){rs.forEach(function(r){if(r&&r.error)throw r.error})}).catch(function(e){stJ="";ids.forEach(function(id){delete lastJ[id]});dels.forEach(function(id){lastJ[id]=""});fail(e)}).then(function(){pending--})}
+var prevSave=save;save=function(){prevSave();push()};
+function apply(rows){var st=null,items={},changed=false;rows.forEach(function(r){if(r.path==="app/state")st=r.data;else if(r.path.indexOf("items/")===0&&r.data&&r.data.id)items[r.data.id]=r.data});
+if(st){var j=cj(st);if(j!==stJ){stJ=j;var keep=S.items;S=JSON.parse(j);delete S._order;S.items=keep;changed=true}}
+var ids=Object.keys(items);if(st&&st._order){var pos={};st._order.forEach(function(id,n){pos[id]=n});ids.sort(function(a,b){return(pos[a]===undefined?1e9:pos[a])-(pos[b]===undefined?1e9:pos[b])})}
+var nl={};ids.forEach(function(id){var j=cj(items[id]);nl[id]=j;if(lastJ[id]!==j)changed=true});
+if(Object.keys(lastJ).length!==ids.length||S.items.length!==ids.length)changed=true;
+lastJ=nl;S.items=ids.map(function(id){return JSON.parse(nl[id])});
+if(changed){prevSave();if(!busy())render()}}
+function pull(first){var mine=seq;return sb.from("docs").select("path,data").eq("space",SPACE).limit(5000).then(function(r){if(r.error)throw r.error;
+if(!first&&(pending>0||seq!==mine)){later();return}
+if(first&&!r.data.length){ready=true;push();toast("Shared test data is set up. Everyone now sees the same site.");return}
+apply(r.data);ready=true})}
+function later(){clearTimeout(pullT);pullT=setTimeout(function(){pull(false).catch(function(){})},700)}
+pull(true).then(function(){
+try{sb.channel("docs-"+SPACE).on("postgres_changes",{event:"*",schema:"public",table:"docs",filter:"space=eq."+SPACE},later).subscribe()}catch(e){}
+setInterval(function(){if(!document.hidden)later()},30000);
+document.addEventListener("visibilitychange",function(){if(!document.hidden)later()})
+}).catch(function(e){toast("Online saving could not start. Changes stay in this browser.")});
+})();
 render();
 </script>
 </body>
