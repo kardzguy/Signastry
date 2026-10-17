@@ -8,7 +8,7 @@ function signerStrip(){return '<div class="sgstrip"><div><b>Do you sign autograp
 function signersPage(){var w=waitingCount();
 return '<div class="hero sgpage"><h1>Your signature is being faked right now.</h1><p class="sub">Signastry lets you confirm the items you really signed, so fakes can\'t pass as yours, and flag the ones you didn\'t.</p>'+
 (w?'<div class="mstats"><div><b>'+w+'</b><span>item'+(w===1?'':'s')+' waiting for signers to verify right now</span></div></div>':'')+
-'<h3>How it works for signers</h3><ol class="sgsteps"><li><b>Join by invite, or request one.</b> Members invite you when they register your items, or you can ask us directly below.</li><li><b>Confirm your identity once.</b> A quick photo ID and selfie check, or confirmation through your agent or in person at a signing. No one else can verify in your name.</li><li><b>Approve or reject in seconds.</b> See the photos and where it was signed, then tap Confirm I signed this, or I didn\'t sign this.</li></ol>'+
+'<h3>How it works for signers</h3><ol class="sgsteps"><li><b>Join by invite, or request one.</b> We reach out when collectors register items you signed, or you can request an invite below.</li><li><b>Confirm your identity once.</b> A quick photo ID and selfie check, or confirmation through your agent or in person at a signing. No one else can verify in your name.</li><li><b>Approve or reject in seconds.</b> See the photos and where it was signed, then tap Confirm I signed this, or I didn\'t sign this.</li></ol>'+
 '<h3>Your name stays protected</h3><ul class="feats"><li><b>Fakes get flagged</b><span>Items you reject are marked as not authentic on their permanent record and can\'t be sold on Signastry.</span></li><li><b>Only you can verify your name</b><span>Your account is tied to your confirmed identity, not just a password.</span></li><li><b>Nothing happens without you</b><span>No item is ever verified in your name unless you tap to confirm it.</span></li></ul>'+
 '<button class="btn" data-sg="join">I have an invite code</button>'+
 '<h3 style="margin-top:28px">No invite yet? Request one</h3>'+(appSent?'<div class="banner ofban"><b>Request sent.</b> We\'ll contact you to set up your account.</div>':
@@ -40,3 +40,8 @@ if(role!=="admin")return;
 if(d.idvok&&S.accts[d.idvok]){var a=S.accts[d.idvok];a.idv=Object.assign({},idvOf(d.idvok),{status:"verified",approved:today()});save();toast(d.idvok+" is now a verified signer.");render();return}
 if(d.idvno&&S.accts[d.idvno]){S.accts[d.idvno].idv=Object.assign({},idvOf(d.idvno),{status:"rejected"});save();toast("Identity check rejected.");render();return}
 if(d.appdone){var ap=S.signerApps.find(function(x){return x.id===d.appdone});if(ap){ap.status="contacted";save();render()}return}});
+/* Private signer entrance: only at /signers/ (or ?signers). Nothing on the main site leads here. */
+var PORTAL=false;try{PORTAL=new URLSearchParams(location.search).has("signers")||location.hash==="#signers"}catch(e){}
+function portalView(){return '<div class="card portalin"><div><b>Signastry for signers</b><span>Already set up? Sign in to review items waiting for you.</span></div><button class="btn" data-role="signer">Signer sign in</button></div>'+signersPage()}
+var _startViewP=startView;startView=function(){if(PORTAL&&!loginRole&&sgMode!=="join")return portalView();return _startViewP()};
+var _signupViewP=signupView;signupView=function(){if(PORTAL)return _signupViewP();suRole="member";return _signupViewP().replace(/<div class="chips" style="margin:0 0 4px">[\s\S]*?<\/div>/,"")};

@@ -30,3 +30,7 @@ Demo sign-ins (on the start page, tap **Sign in** and pick a role):
 - The test database is open to anyone using the site (sample data only). Before launch, switch to real member accounts with per-member access rules and a separate live database.
 - Database setup: run `supabase/setup.sql` once in the Supabase SQL Editor. The sync code lives in `supabase/sync-snippet.js` and is inlined at the end of each page.
 - The legal documents are templates and need review by an attorney before launch.
+
+## Signer entrance
+
+Signers have a private entrance at https://test.signastry.com/signers/ (it opens the app with `?signers`). Nothing on the main site links to it: members only see that verification was requested and the signer's answer. Share the link with signers directly.
