@@ -5,14 +5,43 @@ function idvOf(n){var a=S.accts[n];return a?(a.idv||{status:"pending",method:a.i
 function idvOk(n){if(SIGNERS[n])return true;var v=idvOf(n);return !!(v&&v.status==="verified")}
 function waitingCount(){return S.items.filter(function(i){return i.status==="pending"}).length}
 function signerStrip(){return '<div class="sgstrip"><div><b>Do you sign autographs?</b><span>See how Signastry protects your name.</span></div><button class="btn ghost" data-land="signers">For signers</button></div>'}
-function signersPage(){var w=waitingCount();
-return '<div class="hero sgpage"><h1>Get paid for the autographs you\'ve already signed.</h1><p class="sub">Collectors on Signastry pay to have their items confirmed by the person who signed them. Confirm the ones that are yours and earn on each one, then earn again every time they resell.</p>'+
-'<div class="mstats"><div><b>'+money(authPay())+'</b><span>for each item you confirm</span></div><div><b>'+S.fees.share+'%</b><span>of the resale fee, every time it resells</span></div>'+(w?'<div><b>'+w+'</b><span>item'+(w===1?'':'s')+' waiting for signers now</span></div>':'')+'</div>'+
-'<h3>How it works for signers</h3><ol class="sgsteps"><li><b>Join by invite, or request one.</b> We reach out when collectors register items you signed, or you can request an invite below.</li><li><b>Confirm your identity once.</b> A quick photo ID and selfie check, or confirmation through your agent or in person at a signing. No one else can verify in your name.</li><li><b>Approve or reject in seconds.</b> See the photos and where it was signed, then tap Confirm I signed this, or I didn\'t sign this.</li><li><b>Get paid.</b> Earnings build in your account with every confirmation and resale, and you can withdraw anytime.</li></ol>'+
-'<h3>Your name stays protected, too</h3><ul class="feats"><li><b>Fakes get flagged</b><span>Items you reject are marked as not authentic on their permanent record and can\'t be sold on Signastry.</span></li><li><b>Only you can verify your name</b><span>Your account is tied to your confirmed identity, not just a password.</span></li><li><b>Nothing happens without you</b><span>No item is ever verified in your name unless you tap to confirm it.</span></li></ul>'+
-'<button class="btn" data-sg="join">I have an invite code</button>'+
-'<h3 style="margin-top:28px">No invite yet? Request one</h3>'+(appSent?'<div class="banner ofban"><b>Request sent.</b> We\'ll contact you to set up your account.</div>':
-'<label for="apnm">Your name</label><input id="apnm" autocomplete="name"><label for="apct">Email or phone</label><input id="apct" autocomplete="email"><label for="apwhat">What do you sign?</label><input id="apwhat" placeholder="e.g. Former MLB pitcher, 2009 to 2016"><label for="apag">Agent or manager contact (optional)</label><input id="apag"><div id="aperr" class="err"></div><button class="btn" id="apgo">Request an invite</button>')+'</div>'}
+function signersPage(){var w=waitingCount(),F=S.fees,ex=1000,R=Math.round(ex*F.resale)/100,roy=Math.round(R*F.share)/100;
+var h='<div class="hero sgpage"><h1>Get paid for the autographs you\'ve already signed.</h1><p class="sub">Collectors on Signastry pay to have their items confirmed by the person who signed them. Confirm the ones that are yours and earn on each one, then earn again every time they resell.</p>'+
+'<div class="mstats"><div><b>'+money(authPay())+'</b><span>for each item you confirm</span></div><div><b>'+F.share+'%</b><span>of the resale fee, every time it resells</span></div>'+(w?'<div><b>'+w+'</b><span>item'+(w===1?'':'s')+' waiting for signers now</span></div>':'')+'</div>'+
+'<button class="btn" data-sg="join">I have an invite code</button>';
+h+='<nav class="sgjump" aria-label="On this page"><a href="#sg-pay">Compensation</a><a href="#sg-req">Requirements</a><a href="#sg-how">The process</a><a href="#sg-faq">Questions</a><a href="#sg-apply">Request an invite</a></nav>';
+h+='<h2 id="sg-pay">Compensation</h2><div class="sgpay">'+
+'<div><b>Confirmation pay</b><span class="big">'+money(authPay())+'</span><p>For every item you confirm. That\'s '+F.authShare+'% of the '+money(F.auth)+' authentication fee the collector pays.</p></div>'+
+'<div><b>Resale royalty</b><span class="big">'+F.share+'%</span><p>Of the '+F.resale+'% resale fee, every time an item you confirmed changes hands on Signastry, for as long as it keeps selling. A $1,000 resale earns you '+money(roy)+'.</p></div>'+
+'<div><b>Referral bonus</b><span class="big">'+REF_PCT+'%</span><p>Of everything each signer you recruit earns, for as long as they stay active. No limit on referrals.</p></div></div>'+
+'<p class="meta">Graded cards registered without an autograph don\'t involve a signer, so their fees go to Signastry. You\'re paid only on items you personally confirm.</p>';
+h+='<h3>Getting paid</h3><ul class="sgl"><li>Earnings post to your account the moment you confirm an item, and again with each resale.</li><li>Withdraw any time your balance is $10 or more. Payouts arrive in 2 to 3 business days.</li><li>Submit your tax information once before your first withdrawal. You\'re responsible for your own taxes, and we report payments as the law requires.</li><li>It\'s free to join. Signers never pay a fee.</li></ul>';
+h+='<h2 id="sg-req">Requirements</h2><ul class="feats">'+
+'<li><b>You\'re really you</b><span>Confirm your identity once, with a photo ID and live selfie, through your agent or estate representative, or in person at a signing. Until then you can\'t confirm items.</span></li>'+
+'<li><b>Signer agreement and authorization</b><span>Sign both in your account before your first confirmation. They let us show your name on items you confirm and nothing more.</span></li>'+
+'<li><b>Only items you personally signed</b><span>Confirm an item only if you signed it and recognize it from the photos and details. If you\'re unsure, don\'t confirm it, and tell us.</span></li>'+
+'<li><b>A payout account and tax information</b><span>Add the account you want paid to when you join. Tax information is needed before you withdraw.</span></li>'+
+'<li><b>Honesty, always</b><span>Every confirmation is recorded permanently. We may suspend an account or hold payouts if a confirmation looks false, or if someone else used your account.</span></li>'+
+'<li><b>Agents and estates welcome</b><span>Someone can confirm on your behalf if they complete the agent or estate authorization form.</span></li></ul>';
+h+='<h2 id="sg-how">The process</h2><ol class="sgsteps">'+
+'<li><b>Get invited, or request an invite.</b> We reach out when collectors register items you signed. You can also request an invite at the bottom of this page.</li>'+
+'<li><b>Create your account.</b> Your name, a payout account, and a PIN. It takes about two minutes.</li>'+
+'<li><b>Confirm your identity.</b> One time only. We review it, usually within one business day.</li>'+
+'<li><b>Sign your agreement and authorization.</b> Both are in your account under Legal.</li>'+
+'<li><b>Review requests.</b> Each one shows the collector\'s photos, where and when they say it was signed, and how they got it.</li>'+
+'<li><b>Answer in seconds.</b> Tap Confirm I signed this, or I didn\'t sign this. Confirmed items get QR seals on the item and certificate. Rejected items are flagged as not authentic on their record and can\'t be sold on Signastry.</li>'+
+'<li><b>Get paid.</b> Your confirmation pay posts right away, and royalties follow every resale. Withdraw whenever you like.</li></ol>';
+h+='<h2 id="sg-faq">Questions</h2>'+[
+["What if I'm not sure I signed it?","Don't confirm it. You're never required to confirm anything, and you can tell us why you're unsure. Only confirm items you recognize."],
+["Do collectors see what I earn?","No. Collectors only see that their item was confirmed by you. Your earnings are visible only in your account."],
+["Where does my name appear?","On the records of items you confirm, which signed-in collectors can look up. We don't use your name for anything else."],
+["Can my agent or family manage this for me?","Yes. They complete the agent or estate authorization form, then can review and confirm items for you."],
+["What happens when I reject an item?","It's marked as not authentic on its permanent record, any listing or offer on it closes, and it can't be sold on Signastry."],
+["Does it cost anything?","No. Joining and confirming items is free for signers."]
+].map(function(q){return '<details class="sgq"><summary>'+esc(q[0])+'</summary><p>'+esc(q[1])+'</p></details>'}).join("");
+h+='<h2 id="sg-apply">Request an invite</h2>'+(appSent?'<div class="banner ofban"><b>Request sent.</b> We\'ll contact you to set up your account.</div>':
+'<p class="meta">Tell us who you are and we\'ll set up your account.</p><label for="apnm">Your name</label><input id="apnm" autocomplete="name"><label for="apct">Email or phone</label><input id="apct" autocomplete="email"><label for="apwhat">What do you sign?</label><input id="apwhat" placeholder="e.g. Former MLB pitcher, 2009 to 2016"><label for="apag">Agent or manager contact (optional)</label><input id="apag"><div id="aperr" class="err"></div><button class="btn" id="apgo">Request an invite</button>')+'</div>';
+return h}
 function idvBanner(){var v=idvOf(signer);if(!v||idvOk(signer))return "";
 if(v.status==="review")return '<div class="banner idvb"><b>Identity check in review.</b> We usually confirm within one business day. You can verify items as soon as you\'re approved.</div>';
 return '<div class="card idvcard"><h3 style="margin-top:0">Confirm your identity</h3><p class="meta">Before you can verify items, we confirm you\'re really '+esc(signer)+'. You only do this once, and it means no one else can verify items in your name.'+(v.status==="rejected"?' <b>We couldn\'t confirm your last check. Please try again or contact us.</b>':'')+'</p>'+
