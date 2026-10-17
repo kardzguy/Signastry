@@ -931,7 +931,7 @@ return '<article class="insitem">'+(p?'<img src="'+esc(p)+'" alt="Photo of '+esc
 '<dt>Category</dt><dd>'+esc(i.cat||"")+'</dd>'+
 (isCard(i)?'<dt>Grading</dt><dd>'+esc(i.grader)+' '+esc(i.grade)+', cert '+esc(i.cert)+'</dd>':'')+
 (i.signer||i.signedBy?'<dt>Signed by</dt><dd>'+esc(i.signer||i.signedBy)+'</dd>':'')+
-'<dt>Verification</dt><dd>'+(i.stolen?'Reported stolen '+esc(i.stolen.date)+'. ':'')+(i.status==="verified"?(i.signer?'Verified by the signer':'QR sealed'):i.status==="rejected"?'Rejected by the signer':'Awaiting signer verification')+'</dd>'+
+'<dt>Verification</dt><dd>'+(i.stolen?'Reported stolen '+esc(i.stolen.date)+'. ':'')+(i.status==="verified"?(i.reg?'Registered and QR sealed by the owner. Outside certificate on file':i.signer?'Verified by the signer':'QR sealed'):i.status==="rejected"?'Rejected by the signer':'Awaiting signer verification')+'</dd>'+
 (i.origin?'<dt>Where signed</dt><dd>'+esc(i.origin[0])+(i.origin[1]?', '+esc(i.origin[1]):'')+'</dd>':'')+
 (i.acq?'<dt>How acquired</dt><dd>'+esc(i.acq[0])+(i.acq[1]?'. '+esc(i.acq[1]):'')+'</dd>':'')+
 '<dt>Kept at</dt><dd>'+esc(i.loc||"")+'</dd>'+
@@ -1117,6 +1117,10 @@ var _renderS=render;render=function(){if(tab!=="vault"||role!=="member")sealView
 document.getElementById("view").addEventListener("click",function(e){var t=e.target.closest("button");if(!t)return;var d=t.dataset;
 if(d.seal&&role==="member"){sealView=d.seal;tab="vault";render();scrollTo(0,0);return}
 if(d.sealclose){sealView=null;render();return}});
+/* Example vault item: owner-registered signed photo with an outside certificate */
+var _badgeR=badge;badge=function(i){return i&&i.reg&&!isCard(i)&&i.status==="verified"?'<span class="badge ok">QR sealed · registered</span>':_badgeR(i)};
+function seedPol(){if(!S||!S.items||S.pol1)return;if(!S.items.some(function(i){return i.id==="SG-2488"}))S.items.push({id:"SG-2488",name:"Signed 8x10 photo, Donald J. Trump",signer:"Donald J. Trump",reg:true,cat:"Political",status:"verified",owner:"T. Morgan",loc:"Nashville, TN",submitter:"T. Morgan",photos:["/photos/item-political-photo.jpg"],origin:null,acq:["Bought from a dealer","Came with an outside certificate of authenticity. Stored in a top-loading sleeve."],sales:[["2024-05-20",450]],hist:[["2024-05-20","Bought from a dealer","Private owner","Nashville, TN"],["2024-06-03","Registered by the owner with its certificate. QR seals issued for the item and certificate","Private owner","Nashville, TN"]]});S.pol1=true;try{save()}catch(e){}}
+var _renderP=render;render=function(){seedPol();_renderP()};
 /* Shared online saving (Supabase). Everyone on the site sees the same data.
    Falls back to this browser only if the database can't be reached. */
 (function(){
