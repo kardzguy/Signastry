@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Signastry – Member registry</title>
+<title>Signastry | Secure digital vault for collectibles</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@1,800&family=Barlow:wght@400;500;600&family=Comfortaa:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Figtree:wght@400;500;600;700&family=Comfortaa:wght@700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#e8ecf7;--surface:#fff;--ink:#0d1330;--muted:#4f5a7a;--line:#cdd5ea;--seal:#b8860b;--seal-bg:#fff2c7;--ok:#12744a;--ok-bg:#d8f1e4;--warn:#a8501a;--warn-bg:#fbe8d8;--bad:#b3261e;--accent:#d9232d;--accent-ink:#fff;--band:#12308f;--band-ink:#fff;--gold:#f5c518;--display:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -152,6 +152,175 @@ nav.sgjump{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 4px;background:none
 .insrow{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:12px 16px;margin:0 0 14px}.insrow div{display:flex;flex-direction:column;flex:1 1 220px}.insrow span{font-size:15px;color:var(--muted)}.insrow .btn{margin-top:0}.insbar{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 14px}.insbar .btn{margin-top:0}.insr{background:#fff;color:#14243B;border-radius:14px;padding:20px}.inshead{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-bottom:2px solid #14243B;padding-bottom:12px;margin-bottom:8px}.inshead h2{margin:0}.inshead p{margin:4px 0 0;color:#4A5B70;font-size:14px}.instot{text-align:right}.instot span{display:block;font-size:13px;color:#4A5B70}.instot b{display:block;font-size:26px}.insitem{display:grid;grid-template-columns:120px minmax(0,1fr);gap:14px;padding:14px 0;border-bottom:1px solid #D5DFEA;break-inside:avoid}.insitem img,.insnoph{width:120px;height:120px;object-fit:cover;border-radius:8px;background:#EEF3F8}.insnoph{display:flex;align-items:center;justify-content:center;text-align:center;font-size:12px;color:#4A5B70}.insitem h3{margin:0 0 6px;font-size:17px}.insitem dl{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:2px 10px;margin:0;font-size:14px}.insitem dt{color:#4A5B70}.insitem dd{margin:0}.insnote{font-size:13px;color:#4A5B70;margin-top:14px}.stolencard{margin:10px 0;border-color:var(--bad)}.stolenb{border-color:var(--bad);background:var(--warn-bg)}@media (max-width:480px){.insitem{grid-template-columns:84px minmax(0,1fr)}.insitem img,.insnoph{width:84px;height:84px}}@media print{body.printins header,body.printins #logoctl,body.printins #tabs,body.printins .insbar,body.printins #toast,body.printins #lb{display:none!important}body.printins{background:#fff!important}body.printins .insr{padding:0}}
 .lgnudge{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:0 0 14px;border-color:var(--seal)}.lgnudge div{display:flex;flex-direction:column;flex:1 1 220px}.lgnudge span{font-size:15px;color:var(--muted)}.lgnudge .btn{margin-top:0}
 .recp{border:2px solid var(--line);border-radius:14px;padding:14px 16px;margin:12px 0}.recst{border-radius:10px;padding:10px 14px;margin:0 0 10px}.recst b{display:block;font-size:18px}.recst span{font-size:15px}.rs-vault{background:var(--ok-bg);color:var(--ok)}.rs-sale{background:var(--seal-bg);color:var(--ink)}.rs-bad{background:var(--bad);color:#fff}.rs-bad span,.rs-ok span{color:inherit}.recdl{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:6px 14px;margin:0}.recdl dt{color:var(--muted)}.recdl dd{margin:0;font-weight:600}.cpcard{margin-top:10px;border-color:var(--warn)}
+/* Signastry clean theme (overrides earlier styles) */
+:root{--bg:#FFFFFF;--surface:#FFFFFF;--soft:#F4F6F9;--ink:#0E1726;--muted:#5A6577;--line:#E3E7ED;--seal:#8A6A12;--seal-bg:#F6F1E3;--ok:#0F6B43;--ok-bg:#E6F4EC;--warn:#A8501A;--warn-bg:#FBEFE6;--bad:#B3261E;--accent:#1E5A8A;--accent-ink:#FFFFFF;--band:#0E1726;--band-ink:#FFFFFF;--gold:#C9A227;--display:"Archivo",system-ui,sans-serif;--photo:#3A4352}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#0F141B;--surface:#0F141B;--soft:#18202B;--ink:#EEF2F6;--muted:#A3AEBD;--line:#2A3442;--seal:#E0C066;--seal-bg:#2A2414;--ok:#5FD3A0;--ok-bg:#12302A;--warn:#F0A56E;--warn-bg:#3A2616;--bad:#FF8A80;--accent:#6AA8DC;--accent-ink:#0E1726;--band:#18202B;--band-ink:#FFFFFF;--gold:#E0C066}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#0F141B;--surface:#0F141B;--soft:#18202B;--ink:#EEF2F6;--muted:#A3AEBD;--line:#2A3442;--seal:#E0C066;--seal-bg:#2A2414;--ok:#5FD3A0;--ok-bg:#12302A;--warn:#F0A56E;--warn-bg:#3A2616;--bad:#FF8A80;--accent:#6AA8DC;--accent-ink:#0E1726;--band:#18202B;--band-ink:#FFFFFF;--gold:#E0C066}
+body{background:var(--bg);font:16px/1.55 "Figtree",system-ui,sans-serif}
+.wrap{max-width:780px;padding:0 20px 56px}
+header{margin:0 -20px 22px;padding:14px 20px;background:var(--surface);color:var(--ink);border-bottom:1px solid var(--line);border-radius:0;gap:16px}
+.brand{color:var(--ink);font-size:24px}
+#logo img{height:38px;width:38px;max-width:none;background:none;border:0;padding:0;border-radius:0}
+.who{color:var(--ink)}
+h1,h2{font-family:var(--display);font-style:normal;font-weight:900;text-transform:none;letter-spacing:-.015em}
+h2{font-size:30px;line-height:1.1;margin:0 0 6px}
+h3,.legaltext h3,.nsec h3{font-family:var(--display);font-style:normal;text-transform:none;letter-spacing:0}
+.name{font:800 19px/1.25 var(--display);text-transform:none;font-style:normal}
+.pricetag{font:800 22px/1 var(--display);font-style:normal;color:var(--ink)}
+.stat b,.mstats b,.sgpay .big,.rcout b,.instot b{font-family:var(--display);font-style:normal}
+.more,.sgfirst b{font-style:normal;text-transform:none;font-family:var(--display)}
+nav{background:none;border-radius:0;padding:0;margin:0 0 22px;gap:0;border-bottom:1px solid var(--line)}
+nav button{flex:0 0 auto;color:var(--muted);font:700 15px/1.2 var(--display);font-style:normal;text-transform:none;letter-spacing:0;border-radius:0;padding:13px 14px 11px;border-bottom:3px solid transparent}
+nav button[aria-selected="true"]{background:none;color:var(--ink);border-bottom-color:var(--accent)}
+.btn{border:0;border-radius:2px;background:var(--accent);color:var(--accent-ink);font:800 16px/1.2 var(--display);font-style:normal;text-transform:none;letter-spacing:0;padding:14px 24px;min-height:48px}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:none;color:var(--ink);border:1.5px solid var(--ink);border-radius:2px;font-size:15px;padding:10px 18px;min-height:44px}
+.btn.cta{font-size:18px}
+.chip{border-radius:99px;border-color:var(--line)}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+input,select{border-radius:3px;border:1px solid #C3CCD8;padding:12px 14px}
+input:focus,select:focus{outline:2px solid var(--accent);outline-offset:0;border-color:var(--accent)}
+.card,.stat{border:1px solid var(--line);border-radius:4px;box-shadow:none;background:var(--surface)}
+.stat.wide{background:var(--band);color:var(--band-ink);border:0;box-shadow:none}
+.stat.wide span{color:inherit;opacity:.85}
+.item{border:0;border-top:1px solid var(--line);border-radius:0;box-shadow:none;margin:0;background:none}
+.item:last-of-type{border-bottom:1px solid var(--line)}
+.item>button{padding:16px 0}
+.detail{padding:0 0 18px;border-top:0}
+.vthumb{border-radius:3px;border:1px solid var(--line)}
+.hero,body.landing .hero{background:none;border:0;border-radius:0;box-shadow:none;padding:0}
+.mstats div,.sgpay div,.vcell,.sgex,.recst.rs-vault{border-radius:4px}
+.mstats div,.sgpay div,.vcell{background:var(--soft)}
+.fee{border-radius:4px;border:1px solid var(--line);background:var(--soft)}
+.banner{border-radius:4px}
+.toast{border-radius:4px}
+.nsec{background:none;border:0;border-top:3px solid var(--ink);border-radius:0;box-shadow:none;padding:12px 0 6px}
+.recp,.cpcard,.sgcalc,.insrow,.lgnudge,.portalin,.idvcard,.stolencard,.privcard,.ofcard{border-radius:4px}
+.sgcalc{border:1px solid var(--line)}
+.sgfirst{border-radius:4px}
+.legaltext{border-radius:4px;border-width:1px}
+.timeline li::before{background:var(--accent)}
+.lmenu,.role{box-shadow:0 12px 30px rgba(0,0,0,.14);border:1px solid var(--line);border-radius:4px}
+body.landing{background:var(--bg)}
+#landbg,body.landing #landbg{display:none!important}
+.ltabs{display:none!important}
+
+/* Landing layout: full width */
+body.landing .wrap{max-width:none;padding:0}
+body.landing header{margin:0;padding:0 max(20px,calc((100% - 1240px)/2));height:72px;position:relative;z-index:6}
+body.landing #view{min-height:60vh}
+.hw{max-width:1240px;margin:0 auto;padding:0 32px}
+.lpad{max-width:780px;margin:0 auto;padding:28px 20px 64px}
+#hnav{display:flex;align-items:center;gap:4px;margin:0 auto 0 28px;border:0;padding:0;background:none}
+#hnav .hm{position:relative}
+#hnav .hmb{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:6px;font:700 15px/1 var(--display);color:var(--ink);padding:14px 12px;min-height:44px;box-sizing:border-box}
+#hnav .hmb:hover,#hnav .hmb[aria-expanded="true"]{color:var(--accent)}
+#hnav .hmb:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+#hnav .hdd{position:absolute;top:100%;left:0;min-width:240px;background:var(--surface);border-top:3px solid var(--accent);box-shadow:0 18px 40px rgba(14,23,38,.16);padding:8px 0;z-index:9}
+#hnav .hdd button{all:unset;box-sizing:border-box;display:block;width:100%;cursor:pointer;padding:10px 18px;font-weight:500;color:var(--ink);white-space:nowrap}
+#hnav .hdd button:hover,#hnav .hdd button:focus-visible{background:var(--soft);color:var(--accent)}
+#hact{display:flex;align-items:center;gap:16px}
+#hact .hsi{all:unset;cursor:pointer;font-weight:600;color:var(--ink);padding:10px 4px;min-height:44px;box-sizing:border-box;display:inline-flex;align-items:center}
+#hact .hjoin{all:unset;cursor:pointer;background:var(--accent);color:var(--accent-ink);font:800 15px/1 var(--display);padding:0 18px;min-height:44px;display:inline-flex;align-items:center;box-sizing:border-box}
+#hact .hburger{all:unset;cursor:pointer;display:none;width:44px;height:44px;align-items:center;justify-content:center;color:var(--ink)}
+#hmob{display:none}
+.hstrip{background:var(--band);color:var(--band-ink);font-size:14px;padding:9px 0}
+.hhero{position:relative;min-height:600px;display:flex;align-items:flex-end;color:#fff;background:linear-gradient(180deg,#3A4352 0%,#1A1F28 100%);overflow:hidden}
+.hhero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,14,20,.72) 0%,rgba(10,14,20,.25) 60%,rgba(10,14,20,0) 100%)}
+.hhero .hw{position:relative;z-index:1;width:100%;padding-top:110px;padding-bottom:84px}
+.hhero h1{font:900 60px/1.03 var(--display);letter-spacing:-.025em;margin:0 0 20px;max-width:15em;color:#fff}
+.hhero p{font-size:20px;margin:0 0 32px;max-width:34em;color:#E8EDF3}
+.phl{position:absolute;font-size:13px;color:#C3CBD6;z-index:1}
+.hbtn{all:unset;cursor:pointer;box-sizing:border-box;display:inline-flex;align-items:center;min-height:54px;padding:0 28px;font:800 17px/1 var(--display)}
+.hbtn.w{background:#fff;color:#0E1726}
+.hbtn.o{border:2px solid #fff;color:#fff}
+.hbtn.b{background:var(--accent);color:var(--accent-ink)}
+.hbtn:focus-visible{outline:3px solid #6AA8DC;outline-offset:2px}
+.hlook{border-bottom:1px solid var(--line)}
+.hlook .hw{display:flex;align-items:center;gap:32px;padding-top:32px;padding-bottom:32px;flex-wrap:wrap}
+.hlook h2{font-size:26px;margin:0}
+.hlook .hlf{flex:1 1 440px;display:flex;border-bottom:3px solid var(--ink)}
+.hlook input{flex:1;min-width:0;border:0;border-radius:0;background:transparent;font-size:21px;font-weight:600;padding:12px 0;min-height:56px;color:var(--ink)}
+.hlook input:focus{outline:none}
+.hlook .hlf:focus-within{border-bottom-color:var(--accent)}
+.hpil{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));padding-top:56px;padding-bottom:56px}
+.hpil>div{padding:6px 32px}.hpil>div:first-child{padding-left:0}.hpil>div:last-child{padding-right:0}
+.hpil>div+div{border-left:1px solid var(--line)}
+.hpil b{display:block;font:900 30px/1.1 var(--display)}
+.hpil p{margin:8px 0 0;color:var(--muted)}
+.hsplit{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.hsplit .ph{position:relative;min-height:540px;background:linear-gradient(160deg,#4A5566 0%,#222935 100%)}
+.hsplit .ph.lt{background:linear-gradient(200deg,#DCE6F0 0%,#A9BCD0 100%)}.hsplit .ph.lt .phl{color:#33404F}
+.hsplit .ph.wm{background:linear-gradient(160deg,#6B5A45 0%,#2E261C 100%)}
+.hsplit .ph .phl{left:24px;bottom:20px}
+.hsplit .tx{padding:72px 64px;display:flex;flex-direction:column;justify-content:center}
+.hsplit h2,.hsec h2{font-size:44px;line-height:1.05;letter-spacing:-.02em;margin:0 0 18px}
+.hsplit p{font-size:18px;color:var(--muted)}
+.hsteps{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column;gap:24px}
+.hsteps li{display:grid;grid-template-columns:52px minmax(0,1fr)}
+.hsteps li>span{font:900 32px/1 var(--display);color:var(--accent)}
+.hsteps b{font-size:19px}.hsteps p{margin:4px 0 0;font-size:16px}
+.hchk{list-style:none;margin:0 0 28px;padding:0;display:flex;flex-direction:column;gap:10px}
+.hchk li{display:flex;gap:12px}.hchk svg{flex:none;margin-top:3px}
+.hsec{padding:92px 0}
+.hsec.soft{background:var(--soft)}
+.hcats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.hcat{all:unset;cursor:pointer;position:relative;display:block;aspect-ratio:4/5;background:linear-gradient(170deg,#5B6779 0%,#252C38 100%);color:#fff}
+.hcat .phl{top:14px;left:16px;font-size:12px}
+.hcat b{position:absolute;left:20px;bottom:18px;font:900 26px/1 var(--display)}
+.hcat:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.hquotes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:48px}
+.hquotes blockquote{margin:0 0 20px;font:600 21px/1.4 var(--display)}
+.hquotes figcaption{display:flex;align-items:center;gap:14px}
+.hquotes img{width:64px;height:64px;border-radius:50%;object-fit:cover}
+.hnews{border-top:3px solid var(--ink)}
+.hnews article{display:grid;grid-template-columns:170px minmax(0,1fr);gap:24px;padding:24px 0;border-bottom:1px solid var(--line)}
+.hnews .d{color:var(--muted);font-weight:600;font-size:15px}
+.hnews h3{margin:0 0 6px;font:800 21px/1.25 var(--display)}
+.hnews h3 a{color:var(--ink)}
+.hnews p{margin:0}
+.hcta{background:linear-gradient(180deg,#1E5A8A 0%,#123E63 100%);color:#fff;text-align:center;padding:92px 0}
+.hcta h2{color:#fff;font-size:50px;line-height:1.03;margin:0 auto 14px;max-width:14em}
+.hcta p{color:#DCE8F3;font-size:19px;margin:0 auto 30px;max-width:32em}
+.hfoot{border-top:1px solid var(--line);padding:60px 0 34px;font-size:15px}
+.hfoot .g{display:grid;grid-template-columns:1.5fr repeat(4,minmax(0,1fr));gap:32px}
+.hfoot b{font-family:var(--display)}.hfoot nav{display:block;border:0;margin:0;padding:0;background:none;overflow:visible}
+.hfoot .ln{all:unset;cursor:pointer;display:block;color:var(--muted);padding:4px 0}
+.hfoot .ln:hover,.hfoot .ln:focus-visible{color:var(--accent)}
+.hfoot .bot{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:14px}
+@media (max-width:960px){
+body.landing header{height:64px}
+#hnav{display:none}#hact .hsi{display:none}#hact .hburger{display:inline-flex}
+#hmob{display:block;position:absolute;top:100%;left:0;right:0;background:var(--surface);border-bottom:1px solid var(--line);box-shadow:0 18px 30px rgba(0,0,0,.12);padding:6px 20px 18px;z-index:9}
+#hmob[hidden]{display:none}
+#hmob .mg{padding:10px 0;border-bottom:1px solid var(--line)}
+#hmob .mg b{display:block;font:800 17px/1.2 var(--display);margin-bottom:2px}
+#hmob button{all:unset;cursor:pointer;display:block;padding:8px 0;color:var(--muted)}
+.hw{padding:0 20px}
+.hhero{min-height:520px}.hhero h1{font-size:40px}.hhero p{font-size:18px}
+.hpil{grid-template-columns:minmax(0,1fr);padding-top:36px;padding-bottom:36px}
+.hpil>div{padding:18px 0!important}.hpil>div+div{border-left:0;border-top:1px solid var(--line)}
+.hsplit{grid-template-columns:minmax(0,1fr)}.hsplit .ph{min-height:280px}.hsplit.rev .ph{order:-1}
+.hsplit .tx{padding:44px 20px}
+.hsplit h2,.hsec h2{font-size:32px}
+.hsec{padding:60px 0}
+.hcats{grid-template-columns:repeat(2,minmax(0,1fr))}
+.hquotes{grid-template-columns:minmax(0,1fr);gap:34px}
+.hnews article{grid-template-columns:minmax(0,1fr);gap:6px}
+.hcta{padding:64px 0}.hcta h2{font-size:34px}
+.hfoot .g{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:560px){body.landing header{padding:0 16px}.brand{font-size:21px}}
+.btn,.hero h1,.legaltext h3,.lmenu button,.more,.mstats b,.name,.nsec h3,.pricetag,.rcout b,.role b,.sgfirst b,.sgpay .big,.stat b,.vcell b,h2,nav button{font-style:normal}
+.vcell b{font-family:var(--display);font-weight:800}
+.stat.wide b{color:#FFFFFF}
+.timeline{border-left-color:var(--line)}
+.item>button:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline-color:var(--accent)}
+.fee{border-style:solid}
+.sgfirst b{text-transform:none;font-size:20px}
+#hnav{overflow:visible}
+.bkbar i{background:var(--accent)}
+.hero h1,.sgpage h1{text-transform:none;font-family:var(--display);font-weight:900;letter-spacing:-.02em}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -480,7 +649,7 @@ function pubTimeline(i){return '<ol class="timeline">'+origLi(i,true)+i.hist.map
 function mkSellInit(){var sp=document.getElementById("sp"),si=document.getElementById("si");function upd(){var p=parseFloat(sp.value)||0,it=S.items.find(function(x){return x.id===si.value}),f=fees(p,it),v=it&&valInfo(it);document.getElementById("sfee").innerHTML=p>0?'<div><span>Asking price</span><span>'+money(p)+'</span></div><div><span>'+'Resale fee'+' ('+S.fees.resale+'%)</span><span>−'+money(f.r)+'</span></div><div><span>Seller fee</span><span>−'+money(f.p)+'</span></div><div class="tot"><span>You receive</span><span>'+money(p-f.f)+'</span></div><div class="meta" style="display:block">'+(noSigner(it)?'Graded card fees keep the card record and QR seals up to date.':'Fees keep the item record and QR seals up to date.')+'</div>':'Enter an asking price to see your fees.';document.getElementById("sval").textContent=v?"Latest sold "+money(v.last)+" · current value "+money(v.val):"No sales recorded yet for this item."}sp.oninput=upd;si.onchange=upd;upd()}
 function marketView(){if(role!=="member")return '<div class="empty">The market is for signed-in members only.</div>';
 var chips='<div class="chips" style="margin:0 0 14px"><button class="chip" data-mk="browse" aria-pressed="'+(mkSub==="browse")+'">For sale</button><button class="chip" data-mk="vault" aria-pressed="'+(mkSub==="vault")+'">In the vault</button><button class="chip" data-mk="offers" aria-pressed="'+(mkSub==="offers")+'">Offers'+(ofCount()?' ('+ofCount()+')':'')+'</button><button class="chip" data-mk="sell" aria-pressed="'+(mkSub==="sell")+'">Sell</button><button class="chip" data-mk="orders" aria-pressed="'+(mkSub==="orders")+'">Orders</button></div>';
-return '<h2>Member market</h2><p class="sub">Only signed-in members can buy, sell and make offers here. Every item is verified by its signer.</p>'+chips+(mkSub==="vault"?vaultBrowse():mkSub==="offers"?offersView():mkSub==="sell"?sellView():mkSub==="orders"?ordersView():browseView())}
+return '<h2>Member market</h2><p class="sub">Only signed-in members can buy, sell and make offers here. Every listing carries its full Signastry record.</p>'+chips+(mkSub==="vault"?vaultBrowse():mkSub==="offers"?offersView():mkSub==="sell"?sellView():mkSub==="orders"?ordersView():browseView())}
 function browseView(){var q=mkQ.toLowerCase().split(/\s+/).filter(Boolean),L=S.listings.filter(function(l){var i=S.items.find(function(x){return x.id===l.item});return l.status==="active"&&i&&l.seller!==userName&&i.owner===ownerKey(l.seller)&&q.every(function(w){return [i.id,i.name,i.signer,i.cat,i.grader,i.cert,i.origin&&i.origin[0],l.note].join(" ").toLowerCase().indexOf(w)>-1})});
 L.sort(function(a,b){return mkSort==="low"?a.price-b.price:mkSort==="high"?b.price-a.price:(a.date<b.date?1:a.date>b.date?-1:0)});
 var h='<div class="card"><label for="mq" style="margin-top:0">Search the market</label><input id="mq" value="'+esc(mkQ)+'" placeholder="e.g. jersey, Lena Ortiz"><div class="row" style="align-items:flex-end;gap:10px"><div style="flex:1"><label for="msort">Sort by</label><select id="msort"><option value="new"'+(mkSort==="new"?" selected":"")+'>Newest</option><option value="low"'+(mkSort==="low"?" selected":"")+'>Price: low to high</option><option value="high"'+(mkSort==="high"?" selected":"")+'>Price: high to low</option></select></div><button class="btn" id="mqb" style="margin-top:0">Search</button></div></div>';
@@ -845,6 +1014,65 @@ if(d.cpopen!==undefined){cpOpen=d.cpopen||null;render();var el=document.getEleme
 if(d.cpsend&&role==="member"){var w=gv("cp-w"),n=gv("cp-n"),er=document.getElementById("cp-err");if(!w||!n){er.textContent="Tell us where you saw it and what doesn't match.";return}
 S.copyReports.push({id:"CP-"+Date.now().toString(36),item:d.cpsend,date:today(),by:userName,where:w,link:gv("cp-l"),note:n,status:"open"});cpSent[d.cpsend]=true;cpOpen=null;save();toast("Report sent. Thank you.");render();return}
 if(d.cpdone&&role==="admin"){var c=S.copyReports.find(function(x){return x.id===d.cpdone});if(c){c.status="resolved";c.resolved=today();save();render()}return}});
+/* New home page, header menus and footer (clean theme) */
+var hOpen=null,hMob=false,TESTI=[];
+var HMENUS=[["Collect",[["Register an item","up"],["Register a graded card","up"],["My vault","signin"],["Insurance report","home#hprotect"]]],
+["Verify",[["Look up an item","lookup"],["How it works","home#hhow"],["Report a stolen item","signin"]]],
+["Market",[["Browse the market","market"],["Make an offer","market"]]],
+["About",[["About Signastry","about"],["News from the hobby","news"]]]];
+function fee$(n){return n%1?money(n):"$"+n}
+function hCheck(){return '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--accent)"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>'}
+function hdraw(){var started=!!role||guest,hn=document.getElementById("hnav"),ha=document.getElementById("hact"),hm=document.getElementById("hmob");if(!hn)return;
+if(started||PORTAL){hn.innerHTML="";ha.innerHTML="";hm.hidden=true;hm.innerHTML="";return}
+hn.innerHTML=HMENUS.map(function(m,k){var o=hOpen===k;return '<div class="hm"><button class="hmb" type="button" data-hm="'+k+'" aria-expanded="'+o+'">'+m[0]+'<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4.5l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>'+(o?'<div class="hdd">'+m[1].map(function(l){return '<button type="button" data-h="'+l[1]+'">'+l[0]+'</button>'}).join("")+'</div>':'')+'</div>'}).join("");
+ha.innerHTML='<button class="hsi" type="button" data-h="signin">Sign in</button><button class="hjoin" type="button" data-h="up">Join free</button><button class="hburger" type="button" data-hb="1" aria-label="Menu" aria-expanded="'+hMob+'"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>';
+hm.hidden=!hMob;hm.innerHTML=hMob?HMENUS.map(function(m){return '<div class="mg"><b>'+m[0]+'</b>'+m[1].map(function(l){return '<button type="button" data-h="'+l[1]+'">'+l[0]+'</button>'}).join("")+'</div>'}).join("")+'<div class="mg" style="border:0"><button type="button" data-h="signin" style="color:var(--ink);font-weight:700">Sign in</button></div>':""}
+function hgo(a){hOpen=null;hMob=false;var p=a.split("#"),act=p[0],anchor=p[1];loginRole=null;sgMode="login";
+if(act==="signin"){loginRole="member"}else if(act==="admin"){loginRole="admin"}else if(act==="lookup"){landTab="";anchor="hlookup"}else if(act==="home"){landTab=""}else landTab=act;
+render();if(anchor){var el=document.getElementById(anchor);if(el){el.scrollIntoView({block:"start"});var f=el.querySelector("input");if(f&&act==="lookup")f.focus()}}else scrollTo(0,0)}
+function hLook(){var q=gv("hq"),er=document.getElementById("hqerr");if(!q){er.textContent="Enter a registry ID or certificate number.";return}guest=true;tab="lookup";lookupId=q.toUpperCase();lastLookup=findItem(q);cpOpen=null;render();scrollTo(0,0)}
+function footHtml(){if(PORTAL)return '<footer class="hfoot"><div class="hw"><div class="bot" style="margin:0;border:0;padding:0"><span>© 2026 Signastry</span><span>Signastry for signers</span></div></div></footer>';
+var col=function(t,ls){return '<nav aria-label="'+t+'" style="border:0;margin:0"><b>'+t+'</b><div style="margin-top:10px">'+ls.map(function(l){return '<button class="ln" type="button" data-h="'+l[1]+'">'+l[0]+'</button>'}).join("")+'</div></nav>'};
+return '<footer class="hfoot"><div class="hw"><div class="g"><div><div style="display:flex;align-items:center;gap:10px"><img src="/signastry-logo.png" alt="" width="34" height="34"><span class="brand" style="font-size:21px">Signastry</span></div><p style="margin:12px 0 0;color:var(--muted);max-width:22em">The secure digital vault for autographs, memorabilia and graded cards.</p></div>'+
+col("Collect",[["Register an item","up"],["Look up an item","lookup"],["Insurance report","home#hprotect"]])+col("Market",[["Browse the market","market"],["Make an offer","market"]])+col("Company",[["About Signastry","about"],["News from the hobby","news"],["Contact us","contact"]])+col("Legal",[["Terms","terms"],["Privacy","privacy"]])+
+'</div><div class="bot"><span>© 2026 Signastry</span><button class="ln" type="button" data-h="admin" style="padding:0">Staff sign in</button></div></div></footer>'}
+function homeHtml(){var F=S.fees;
+var h='<div class="hstrip"><div class="hw">Safety, security and authenticity for every item in your collection.</div></div>';
+h+='<section class="hhero"><span class="phl" aria-hidden="true" style="top:22px;right:32px;text-align:right">Photo: close-up of a signed baseball or jersey</span><div class="hw"><h1>Your item\'s history and authenticity, digitally secured in our vault.</h1><p>Register your autographs, memorabilia and graded cards. Each one gets a registry ID, tamper-resistant QR seals, photos and a permanent ownership history, kept safe in your digital vault.</p><div style="display:flex;flex-wrap:wrap;gap:14px"><button class="hbtn w" type="button" data-h="up">Register an item</button><button class="hbtn o" type="button" data-h="lookup">Look up an item</button></div></div></section>';
+h+='<section class="hlook" id="hlookup"><div class="hw"><div style="flex:1 1 360px"><h2>Buying something signed? Check it first.</h2><p style="margin:4px 0 0;color:var(--muted)">Enter the registry ID from its QR seal, or a grading certificate number.</p></div><div style="flex:1 1 440px"><div class="hlf"><label for="hq" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);margin:0">Registry ID or certificate number</label><input id="hq" placeholder="e.g. SG-3377" autocapitalize="characters" autocomplete="off"><button class="hbtn b" type="button" id="hqgo" style="min-height:56px">Look up</button></div><div id="hqerr" class="err"></div></div></div></section>';
+h+='<section><div class="hw hpil"><div><b>Safety</b><p>Your records are stored securely off-site, so they survive fire, flood and theft.</p></div><div><b>Security</b><p>Tamper-resistant QR seals on the item and its certificate, and a record only you control.</p></div><div><b>Authenticity</b><p>A permanent history of every owner and sale, with optional confirmation from the signer.</p></div></div></section>';
+h+='<section class="hsplit" id="hhow"><div class="ph"><span class="phl" aria-hidden="true">Photo: a QR seal being placed on a signed item</span></div><div class="tx"><h2>How it works</h2><ol class="hsteps"><li><span>1</span><div><b>Register it</b><p>Add photos, where and when it was signed, and how you got it. Graded cards go in by cert number.</p></div></li><li><span>2</span><div><b>It\'s sealed and secured</b><p>It gets a registry ID and matching QR seals for the item and its certificate, and its record is locked into your digital vault.</p></div></li><li><span>3</span><div><b>Add signer verification, if you like</b><p>For the strongest proof, we take it to the person who signed it to confirm it\'s theirs. Its history then follows it through every sale.</p></div></li></ol><p style="margin:28px 0 0;font-size:15px">Free to join. '+fee$(F.submit)+' to register an item. Signer verification is an optional '+fee$(F.auth)+'.</p></div></section>';
+h+='<section class="hsplit rev"><div class="tx"><h2>Your collection, protected</h2><p style="margin:0 0 20px">Every item in your vault carries its photos, QR seals, full ownership history and verification status. Members can make offers on pieces you never listed, and your name and address are never shown.</p><ul class="hchk"><li>'+hCheck()+'<span>Verification status on every piece, at a glance</span></li><li>'+hCheck()+'<span>Anonymous offers, even on items you haven\'t listed</span></li><li>'+hCheck()+'<span>Keep private on anything you\'d rather not show</span></li></ul><div><button class="hbtn b" type="button" data-h="up">Start your vault</button></div></div><div class="ph lt"><span class="phl" aria-hidden="true">Photo: a collector\'s display shelf of signed items</span></div></section>';
+h+='<section class="hsec"><div class="hw"><div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:12px"><h2 style="margin:0">Shop the market</h2><button class="hbtn" type="button" data-h="market" style="padding:0;min-height:44px;color:var(--ink)">See everything</button></div><p style="margin:0 0 26px;color:var(--muted);max-width:40em">Every listing carries its full Signastry record. Members can also make offers on pieces in other members\' vaults.</p><div class="hcats">'+
+[["Jerseys","signed jersey"],["Balls","signed baseball"],["Graded cards","graded card slab"],["Helmets","signed helmet"],["Photos","signed 8x10 photo"],["Music","signed guitar or vinyl"]].map(function(c){return '<button class="hcat" type="button" data-h="market"><span class="phl" aria-hidden="true">Photo: '+c[1]+'</span><b>'+c[0]+'</b></button>'}).join("")+'</div></div></section>';
+if(TESTI.length)h+='<section class="hsec soft"><div class="hw"><h2 style="margin:0 0 44px;max-width:16em">Collectors, signers and insurers agree</h2><div class="hquotes">'+TESTI.map(function(q){return '<figure style="margin:0"><blockquote>“'+esc(q.text)+'”</blockquote><figcaption>'+(q.photo?'<img src="'+esc(q.photo)+'" alt="">':'')+'<div><b>'+esc(q.name)+'</b><div style="color:var(--muted);font-size:15px">'+esc(q.role)+'</div></div></figcaption></figure>'}).join("")+'</div></div></section>';
+h+='<section class="hsplit" id="hprotect"><div class="ph wm"><span class="phl" aria-hidden="true" style="color:#E2D6C6">Photo: a framed signed jersey on a living room wall</span></div><div class="tx"><h2>Ready for the unexpected</h2><p style="margin:0 0 18px">If fire, flood or theft strikes, your Signastry record survives. Photos, verification, ownership history and recorded sale prices are stored securely online, giving you the proof you need to support an insurance claim.</p><p style="margin:0 0 8px;color:var(--ink)"><b>One-tap insurance report.</b> A printable record of your whole collection to hand your agent.</p><p style="margin:0 0 28px;color:var(--ink)"><b>Report it stolen.</b> Anyone who looks it up or scans its QR seal is warned, and it can\'t be resold on Signastry.</p><div><button class="hbtn b" type="button" data-h="up">Protect your collection</button></div></div></section>';
+h+='<section class="hsec"><div class="hw"><h2 style="max-width:17em">Fakes are flooding the hobby. A secure record protects you.</h2><p style="margin:0 0 34px;color:var(--muted);font-size:18px;max-width:40em">Paper certificates and numbers are easy to copy. A sealed digital record with a permanent, tamper-resistant history is far harder to fake.</p><div class="hnews">'+
+[["May 8, 2026","Sports Illustrated","https://www.si.com/collectibles/psa-report-reveals-200m-fake-cards","PSA stopped more than $200 million in fakes","Counterfeit submissions rose 45% in a year, and forgers are moving to mid-priced items that get less scrutiny.","every piece deserves a record, not just the trophies."],
+["Mar 17, 2026","Athlon Sports","https://www.aol.com/articles/mister-mancave-forgery-fallout-350m-192003395.html","Mister Mancave fallout is still hitting prices","Some graded items are reselling 10 to 20% lower as buyers ask for tamper-resistant provenance.","that's what a sealed record with its full history is."],
+["Jan 12, 2026","Sports Collectors Daily","https://www.sportscollectorsdaily.com/indiana-files-rico-claim-against-businesses-run-by-the-late-mister-man-cave/","Indiana files RICO claim against Mancave businesses","Victims reported baseballs whose authentication numbers didn't match.","a number alone proves little. A sealed record with its full history proves much more."]].map(function(n){return '<article><div class="d">'+n[0]+'<br>'+n[1]+'</div><div><h3><a href="'+n[2]+'" target="_blank" rel="noopener">'+esc(n[3])+'</a></h3><p>'+esc(n[4])+' <b>Our take:</b> '+esc(n[5])+'</p></div></article>'}).join("")+'</div><div style="margin-top:24px"><button class="hbtn" type="button" data-h="news" style="padding:0;min-height:44px;color:var(--ink)">More news from the hobby</button></div></div></section>';
+h+='<section class="hcta"><div class="hw"><h2>Your collection deserves a record.</h2><p>Join free and secure your first item in a few minutes.</p><button class="hbtn w" type="button" data-h="up">Join free</button></div></section>';
+return h}
+function aboutHtml(){return '<h1 style="font-size:40px;margin:0 0 12px">About Signastry</h1><p style="font-size:18px">Signastry is a secure digital vault for autographs, memorabilia and graded cards. Every item gets a registry ID, tamper-resistant QR seals, photos and a permanent ownership history, so collectors can prove what they own and buyers can check before they pay.</p><ul class="feats"><li><b>Safety</b><span>Records are stored securely off-site and survive fire, flood and theft. Print an insurance report of your whole collection any time.</span></li><li><b>Security</b><span>Matching QR seals tie each item to its certificate and record. Owners can add to an item\'s history, but nothing is removed without review.</span></li><li><b>Authenticity</b><span>Every owner and sale stays on the record. Add signer verification for confirmation from the person who signed it.</span></li><li><b>Privacy</b><span>Owner names and addresses are never shown. Lookups show an anonymous owner ID and the city and state only.</span></li><li><b>A trusted market</b><span>Only verified items and QR-sealed cards can be listed, and members can make anonymous offers on vaulted pieces.</span></li><li><b>Fraud reporting</b><span>Report a suspected copy or a stolen item, and every lookup and QR scan shows the warning.</span></li></ul><button class="btn" data-h="up" style="margin-top:22px">Join free</button>'}
+var _startViewH=startView;startView=function(){
+if(PORTAL||sgMode==="join"||loginRole)return '<div class="lpad">'+_startViewH()+'</div>'+footHtml();
+if(landTab==="up")return '<div class="lpad"><h1 style="font-size:40px;margin:0 0 8px">Join Signastry</h1><p class="sub">Free to join. You pay only when you register an item.</p>'+signupView()+'</div>'+footHtml();
+if(landTab==="market")return '<div class="lpad">'+mTeaser()+'</div>'+footHtml();
+if(landTab==="about")return '<div class="lpad">'+aboutHtml()+'</div>'+footHtml();
+if(landTab==="news")return '<div class="lpad">'+newsHtml()+'</div>'+footHtml();
+return homeHtml()+footHtml()};
+var _renderH=render;render=function(){_renderH();hdraw()};
+(function(){var hd=document.querySelector("header"),who=document.getElementById("who");if(!hd||document.getElementById("hnav"))return;
+var n=document.createElement("nav");n.id="hnav";n.setAttribute("aria-label","Main");var a=document.createElement("div");a.id="hact";var m=document.createElement("div");m.id="hmob";m.hidden=true;
+hd.insertBefore(n,who);hd.insertBefore(a,who);hd.appendChild(m);
+var bar=hd.querySelector(".bar");if(bar){bar.style.cursor="pointer";bar.setAttribute("role","link");bar.setAttribute("tabindex","0");bar.setAttribute("aria-label","Signastry home");var goHome=function(){if(!role&&!guest)hgo("home")};bar.addEventListener("click",goHome);bar.addEventListener("keydown",function(e){if(e.key==="Enter")goHome()})}})();
+document.addEventListener("click",function(e){var t=e.target.closest("button,[data-h]");
+if(t&&t.dataset.hm!==undefined){var k=+t.dataset.hm;hOpen=hOpen===k?null:k;hdraw();return}
+if(t&&t.dataset.hb){hMob=!hMob;hdraw();return}
+if(t&&t.dataset.h){var a=t.dataset.h;if(a==="terms"||a==="privacy"){toast("Our terms and privacy policy will be posted before launch.");return}if(a==="contact"){toast("Contact details are coming soon.");return}hgo(a);return}
+if(t&&t.id==="hqgo"){hLook();return}
+if(hOpen!==null&&!e.target.closest("#hnav")){hOpen=null;hdraw()}});
+document.addEventListener("keydown",function(e){if(e.key==="Escape"&&(hOpen!==null||hMob)){hOpen=null;hMob=false;hdraw()}if(e.key==="Enter"&&e.target&&e.target.id==="hq"){e.preventDefault();hLook()}});
 /* Shared online saving (Supabase). Everyone on the site sees the same data.
    Falls back to this browser only if the database can't be reached. */
 (function(){
