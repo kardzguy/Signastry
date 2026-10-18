@@ -1100,6 +1100,7 @@ return '<div class="insbar"><button class="btn ghost" data-sealclose="1">Back to
 '<div class="sealgrid">'+list.map(function(i){return sealLabel(i,"Item")+sealLabel(i,"Certificate")}).join("")+'</div>'}
 var _qrBlockS=qrBlock;qrBlock=function(i){var h=_qrBlockS(i);return role==="member"&&i.owner===ME?h+'<button class="btn ghost" data-seal="'+i.id+'" style="margin:0 0 10px">Print seals</button>':h};
 var _vaultS=vault;vault=function(){return sealView&&role==="member"?sealSheet():_vaultS()};
+var _vaultS2=vault;vault=function(){var h=_vaultS2();if(sealView||insView||role!=="member"||!mine().length)return h;var r='<div class="insrow"><div><b>QR seals</b><span>Print matching seals for each item and its certificate. Stick them on, and anyone can scan to check the record.</span></div><button class="btn" data-seal="ALL">Print seals</button></div>',k=h.indexOf('<div class="insrow">');return k>-1?h.slice(0,k)+r+h.slice(k):r+h};
 var _renderS=render;render=function(){if(tab!=="vault"||role!=="member")sealView=null;document.body.classList.toggle("printseal",!!sealView);_renderS()};
 document.getElementById("view").addEventListener("click",function(e){var t=e.target.closest("button");if(!t)return;var d=t.dataset;
 if(d.seal&&role==="member"){sealView=d.seal;tab="vault";render();scrollTo(0,0);return}

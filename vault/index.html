@@ -1113,14 +1113,14 @@ return '<div class="insbar"><button class="btn ghost" data-sealclose="1">Back to
 '<div class="sealgrid">'+list.map(function(i){return sealLabel(i,"Item")+sealLabel(i,"Certificate")}).join("")+'</div>'}
 var _qrBlockS=qrBlock;qrBlock=function(i){var h=_qrBlockS(i);return role==="member"&&i.owner===ME?h+'<button class="btn ghost" data-seal="'+i.id+'" style="margin:0 0 10px">Print seals</button>':h};
 var _vaultS=vault;vault=function(){return sealView&&role==="member"?sealSheet():_vaultS()};
+var _vaultS2=vault;vault=function(){var h=_vaultS2();if(sealView||insView||role!=="member"||!mine().length)return h;var r='<div class="insrow"><div><b>QR seals</b><span>Print matching seals for each item and its certificate. Stick them on, and anyone can scan to check the record.</span></div><button class="btn" data-seal="ALL">Print seals</button></div>',k=h.indexOf('<div class="insrow">');return k>-1?h.slice(0,k)+r+h.slice(k):r+h};
 var _renderS=render;render=function(){if(tab!=="vault"||role!=="member")sealView=null;document.body.classList.toggle("printseal",!!sealView);_renderS()};
 document.getElementById("view").addEventListener("click",function(e){var t=e.target.closest("button");if(!t)return;var d=t.dataset;
 if(d.seal&&role==="member"){sealView=d.seal;tab="vault";render();scrollTo(0,0);return}
 if(d.sealclose){sealView=null;render();return}});
-/* Example vault item: owner-registered signed photo with an outside certificate */
-var _badgeR=badge;badge=function(i){return i&&i.reg&&!isCard(i)&&i.status==="verified"?'<span class="badge ok">QR sealed · registered</span>':_badgeR(i)};
-function seedPol(){if(!S||!S.items||S.pol1)return;if(!S.items.some(function(i){return i.id==="SG-2488"}))S.items.push({id:"SG-2488",name:"Signed 8x10 photo, Donald J. Trump",signer:"Donald J. Trump",reg:true,cat:"Political",status:"verified",owner:"T. Morgan",loc:"Nashville, TN",submitter:"T. Morgan",photos:["/photos/item-political-photo.jpg"],origin:null,acq:["Bought from a dealer","Came with an outside certificate of authenticity. Stored in a top-loading sleeve."],sales:[["2024-05-20",450]],hist:[["2024-05-20","Bought from a dealer","Private owner","Nashville, TN"],["2024-06-03","Registered by the owner with its certificate. QR seals issued for the item and certificate","Private owner","Nashville, TN"]]});S.pol1=true;try{save()}catch(e){}}
-var _renderP=render;render=function(){seedPol();_renderP()};
+/* The example item belongs to the demo only: remove it from the real vault if it was added */
+function unseedPol(){if(!S||!S.items||S.pol0)return;var n=S.items.length;S.items=S.items.filter(function(i){return !(i.id==="SG-2488"&&i.owner==="T. Morgan")});delete S.pol1;S.pol0=true;try{save()}catch(e){}}
+var _renderP=render;render=function(){unseedPol();_renderP()};
 /* Shared online saving (Supabase). Everyone on the site sees the same data.
    Falls back to this browser only if the database can't be reached. */
 (function(){
