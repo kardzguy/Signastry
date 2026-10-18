@@ -1161,6 +1161,8 @@ setInterval(function(){if(!document.hidden)later()},30000);
 document.addEventListener("visibilitychange",function(){if(!document.hidden)later()})
 }).catch(function(e){toast("Online saving could not start. Changes stay in this browser.")});
 })();
+/* Safety net: if a page fails to draw, show what went wrong instead of leaving the old screen up */
+(function(){var _r=render;function fill(){if(!S)return;["charges","copyReports","founders","listings","offers","orders","removals","signerApps","ledger","invites","withdrawals","items"].forEach(function(k){if(!Array.isArray(S[k]))S[k]=[]});["bucks","credits","legacy","members","accts"].forEach(function(k){if(!S[k]||typeof S[k]!=="object")S[k]={}})}render=function(){try{fill();_r()}catch(e){var v=document.getElementById("view");if(v)v.innerHTML='<div class="card" style="margin:16px 0"><b>Something on this page did not load.</b><p class="meta">Please take a screenshot of this box and send it to the Signastry team.</p><p class="meta" style="font-family:monospace;word-break:break-word">'+esc(String(e&&e.message||e))+(e&&e.stack?' @ '+esc(String(e.stack).split("\\n").slice(0,3).join(" | ")):'')+'</p><button class="btn" onclick="location.reload()">Try again</button></div>';try{console.error(e)}catch(x){}}}})();
 render();
 </script>
 </body>
