@@ -1,14 +1,42 @@
-/* Print seals: matching item and certificate seals at label size */
-var sealView=null;
+/* Print seals: each item's seals print once. Reprints need Signastry approval with a documented reason, and every print goes into the item's history */
+var sealView=null,sealJust=[];
+function sealOf(i){return i.seal||{n:0,allow:0}}
+function sealCan(i){var s=sealOf(i);return !s.n||s.allow>0}
+function sealReqs(){if(!Array.isArray(S.sealReqs))S.sealReqs=[];return S.sealReqs}
+function sealPend(id){return sealReqs().filter(function(r){return r.item===id&&r.status==="pending"})[0]}
 function sealLabel(i,kind){return '<div class="seallbl"><div class="sealtop"><img src="/signastry-logo.png" alt="" width="18" height="18"><span>Signastry</span><em>'+kind+'</em></div><div class="sealqr" data-qr="'+esc(scanUrl(i))+'" role="img" aria-label="QR seal for '+esc(i.id)+'"></div><b>'+esc(i.id)+'</b><small>'+esc(i.name)+'</small><small>Scan to check its record</small></div>'}
+function sealBlocked(i){var s=sealOf(i),p=sealPend(i.id),last=sealReqs().filter(function(r){return r.item===i.id&&r.status!=="pending"}).slice(-1)[0];
+return '<div class="card" style="margin:8px 0"><b>'+esc(i.id)+' '+esc(i.name)+'</b><div class="meta">Seals printed '+s.n+(s.n===1?' time':' times')+', last on '+esc(s.at||"")+'.</div>'+
+(p?'<p class="meta" style="margin:8px 0 0"><span class="badge pend">Reprint requested '+esc(p.date)+'</span> Waiting for Signastry to review your reason: “'+esc(p.reason)+'”</p>':
+(last&&last.status==="denied"?'<p class="meta" style="margin:8px 0">Your last reprint request was declined: '+esc(last.note)+'</p>':'')+
+'<label for="sr-'+i.id+'">Why do you need new seals?</label><textarea id="sr-'+i.id+'" rows="2" style="width:100%;box-sizing:border-box;font:inherit;padding:10px;border:1px solid var(--line);border-radius:8px" placeholder="e.g. The certificate seal was damaged when the frame was replaced"></textarea><div id="sre-'+i.id+'" class="err"></div><button class="btn ghost" data-sealreq="'+i.id+'">Request a reprint</button>')+'</div>'}
 function sealSheet(){var all=sealView==="ALL",list=all?mine():mine().filter(function(x){return x.id===sealView});
-return '<div class="insbar"><button class="btn ghost" data-sealclose="1">Back to my vault</button><button class="btn" data-insprint="1">Print seals</button>'+(all?'':'<button class="btn ghost" data-seal="ALL">Seals for all my items</button>')+'</div>'+
-'<div class="sealhelp"><h2>'+(all?'Seals for all your items':'Seals for '+esc(list[0]?list[0].name:""))+'</h2><p class="meta">Each item gets two matching seals: one for the item and one for its certificate. Print on adhesive label paper at 100% scale, then cut along the dashed lines. For the strongest protection, use tamper-evident (void) label stock that leaves a mark if someone peels it off.</p></div>'+
-'<div class="sealgrid">'+list.map(function(i){return sealLabel(i,"Item")+sealLabel(i,"Certificate")}).join("")+'</div>'}
-var _qrBlockS=qrBlock;qrBlock=function(i){var h=_qrBlockS(i);return role==="member"&&i.owner===ME?h+'<button class="btn ghost" data-seal="'+i.id+'" style="margin:0 0 10px">Print seals</button>':h};
+var pr=list.filter(function(i){return sealJust.indexOf(i.id)>-1||sealCan(i)}),bl=list.filter(function(i){return pr.indexOf(i)<0}),fresh=pr.filter(function(i){return sealJust.indexOf(i.id)<0});
+return '<div class="insbar"><button class="btn ghost" data-sealclose="1">Back to my vault</button>'+(fresh.length?'<button class="btn" data-sealprint="1">Print '+(fresh.length===1?'these seals':'seals for '+fresh.length+' items')+'</button>':'')+(all?'':'<button class="btn ghost" data-seal="ALL">Seals for all my items</button>')+'</div>'+
+'<div class="sealhelp"><h2>'+(all?'Seals for your items':'Seals for '+esc(list[0]?list[0].name:""))+'</h2><p class="meta"><b>Each item’s seals can be printed once.</b> If you need more later, request a reprint and tell us why. Signastry reviews every request, and every print is recorded in the item’s history to prevent fraud.</p><p class="meta">Print on adhesive label paper at 100% scale, then cut along the dashed lines. For the strongest protection, use tamper-evident (void) label stock that leaves a mark if someone peels it off.</p>'+
+(sealJust.length?'<p class="meta"><span class="badge ok">Printed '+esc(today())+'</span> These seals are now recorded as printed. If the print didn’t come out, request a reprint.</p>':'')+'</div>'+
+(pr.length?'<div class="sealgrid">'+pr.map(function(i){return sealLabel(i,"Item")+sealLabel(i,"Certificate")}).join("")+'</div>':'')+
+(bl.length?'<div class="sealhelp" style="margin-top:18px"><h3>Already printed</h3>'+bl.map(sealBlocked).join("")+'</div>':'')+
+(!pr.length&&!bl.length?'<div class="empty">No items yet.</div>':'')}
+function sealAdmin(){var rs=sealReqs(),pend=rs.filter(function(r){return r.status==="pending"}),done=rs.filter(function(r){return r.status!=="pending"}).slice(-10).reverse();
+function it(r){return S.items.find(function(x){return x.id===r.item})}
+return '<h3>QR seal reprint requests</h3>'+(pend.length?pend.map(function(r){var i=it(r),s=i?sealOf(i):{n:0};return '<div class="card" style="margin:8px 0"><b>'+esc(r.item)+(i?' '+esc(i.name):'')+'</b><div class="meta">'+esc(r.date)+' · requested by '+esc(r.by)+' · printed '+s.n+(s.n===1?' time':' times')+' so far</div><p style="margin:6px 0">Reason: '+esc(r.reason)+'</p><label for="sa-'+r.id+'">Decision note (kept in the item history)</label><input id="sa-'+r.id+'" placeholder="e.g. Owner sent photos of the damaged seal"><div id="sae-'+r.id+'" class="err"></div><button class="btn" data-sealok="'+r.id+'">Approve one reprint</button> <button class="btn ghost" data-sealno="'+r.id+'">Decline</button></div>'}).join(""):'<p class="meta">No requests waiting.</p>')+
+(done.length?'<details style="margin:6px 0 14px"><summary class="meta">Recent decisions</summary>'+done.map(function(r){return '<div class="meta" style="margin:6px 0">'+esc(r.decided||"")+' · '+esc(r.item)+' · '+(r.status==="approved"?'Approved':'Declined')+' · '+esc(r.note||"")+'</div>'}).join("")+'</details>':'')}
+var _qrBlockS=qrBlock;qrBlock=function(i){var h=_qrBlockS(i);if(!(role==="member"&&i.owner===ME))return h;var s=sealOf(i);return h+'<button class="btn ghost" data-seal="'+i.id+'" style="margin:0 0 10px">'+(sealCan(i)?(s.n?'Print approved reprint':'Print seals'):'Seals printed · request a reprint')+'</button>'};
 var _vaultS=vault;vault=function(){return sealView&&role==="member"?sealSheet():_vaultS()};
-var _vaultS2=vault;vault=function(){var h=_vaultS2();if(sealView||insView||role!=="member"||!mine().length)return h;var r='<div class="insrow"><div><b>QR seals</b><span>Print matching seals for each item and its certificate. Stick them on, and anyone can scan to check the record.</span></div><button class="btn" data-seal="ALL">Print seals</button></div>',k=h.indexOf('<div class="insrow">');return k>-1?h.slice(0,k)+r+h.slice(k):r+h};
-var _renderS=render;render=function(){if(tab!=="vault"||role!=="member")sealView=null;document.body.classList.toggle("printseal",!!sealView);_renderS()};
+var _vaultS2=vault;vault=function(){var h=_vaultS2();if(sealView||insView||role!=="member"||!mine().length)return h;var n=mine().filter(sealCan).length,r='<div class="insrow"><div><b>QR seals</b><span>'+(n?'Print matching seals for each item and its certificate. Each item’s seals print once, so have your label paper ready.':'Your seals are printed. Need more? Open Print seals to request a reprint.')+'</span></div><button class="btn" data-seal="ALL">Print seals</button></div>',k=h.indexOf('<div class="insrow">');return k>-1?h.slice(0,k)+r+h.slice(k):r+h};
+var _adminViewS=adminView;adminView=function(){return _adminViewS()+sealAdmin()};
+var _renderS=render;render=function(){if(tab!=="vault"||role!=="member"){sealView=null;sealJust=[]}document.body.classList.toggle("printseal",!!sealView);_renderS()};
 document.getElementById("view").addEventListener("click",function(e){var t=e.target.closest("button");if(!t)return;var d=t.dataset;
-if(d.seal&&role==="member"){sealView=d.seal;tab="vault";render();scrollTo(0,0);return}
-if(d.sealclose){sealView=null;render();return}});
+if(d.seal&&role==="member"){sealView=d.seal;sealJust=[];tab="vault";render();scrollTo(0,0);return}
+if(d.sealclose){sealView=null;sealJust=[];render();return}
+if(d.sealprint&&role==="member"){var all=sealView==="ALL",list=(all?mine():mine().filter(function(x){return x.id===sealView})).filter(function(i){return sealCan(i)&&sealJust.indexOf(i.id)<0});if(!list.length)return;
+if(!window.confirm("Each item's seals can be printed only once. Make sure your label paper is loaded.\n\nPrint now?"))return;
+list.forEach(function(i){var s=i.seal||{n:0,allow:0},re=s.n>0;s.n=(s.n||0)+1;s.at=today();if(re){s.allow=0;i.hist.push([today(),"QR seals reprinted by the owner (print "+s.n+", approved by Signastry)","Owner",i.loc])}else i.hist.push([today(),"QR seals printed by the owner","Owner",i.loc]);i.seal=s;sealJust.push(i.id)});
+save();render();setTimeout(function(){window.print()},400);return}
+if(d.sealreq&&role==="member"){var i=mine().find(function(x){return x.id===d.sealreq}),rs=gv("sr-"+d.sealreq),er=document.getElementById("sre-"+d.sealreq);if(!i)return;if(rs.length<10){er.textContent="Please explain why you need new seals (at least a short sentence).";return}
+sealReqs().push({id:"SR-"+Date.now().toString(36),item:i.id,by:userName,date:today(),reason:rs,status:"pending"});i.hist.push([today(),"Reprint of QR seals requested by the owner. Reason: "+rs,"Owner",i.loc]);save();toast("Reprint request sent. Signastry will review it.");render();return}
+if((d.sealok||d.sealno)&&role==="admin"){var rid=d.sealok||d.sealno,r=sealReqs().find(function(x){return x.id===rid}),note=gv("sa-"+rid),ee=document.getElementById("sae-"+rid);if(!r)return;if(note.length<5){ee.textContent="Write a short note documenting the decision.";return}
+var it=S.items.find(function(x){return x.id===r.item});r.status=d.sealok?"approved":"denied";r.note=note;r.decided=today();
+if(it){if(d.sealok){it.seal=it.seal||{n:0};it.seal.allow=1;it.hist.push([today(),"Reprint of QR seals approved by Signastry. Note: "+note,"Signastry",it.loc])}else it.hist.push([today(),"Reprint request for QR seals declined by Signastry. Note: "+note,"Signastry",it.loc])}
+save();toast(d.sealok?"Reprint approved. The owner can print one new set.":"Request declined.");render();return}});
