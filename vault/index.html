@@ -1217,7 +1217,7 @@ function privAdd(name,email,cb){var sb=privClient();if(!sb){cb(false);return}var
 sb.from("tester_signups").insert(row).then(function(r){cb(!r.error||r.error.code==="23505")},function(){cb(false)})}
 function privScrub(){if(!TEST_PHASE||!S||!S.members)return;Object.keys(S.members).forEach(function(n){var m=S.members[n];if(!m||!m.email||m.listed||privBusy[n])return;privBusy[n]=1;var em=m.email;privAdd(n,em,function(ok){privBusy[n]=0;if(ok&&S.members[n]&&S.members[n].email===em){S.members[n].email="";S.members[n].listed=true;try{save()}catch(e){}}})})}
 var _renderP2=render;render=function(){try{privScrub()}catch(e){}_renderP2()};
-var _signupViewPL=signupView;signupView=function(){var h=_signupViewPL();return TEST_PHASE?h.replace('<input id="suem" type="email" autocomplete="email">','<input id="suem" type="email" autocomplete="email"><p class="meta" style="margin:4px 0 0">Kept private. We use it to move your items and points to your real account when Signastry goes live.</p>'):h};
+var _signupViewPL=signupView;signupView=function(){var h=_signupViewPL();h=h.replace('<label for="sup">Create a 4-digit PIN</label>','<label for="sup">Create a 4-digit PIN</label><p class="meta" style="margin:0 0 4px">Pick a new PIN. Don\'t use one you use for your bank or phone.</p>');return TEST_PHASE?h.replace('<input id="suem" type="email" autocomplete="email">','<input id="suem" type="email" autocomplete="email"><p class="meta" style="margin:4px 0 0">Kept private. We use it to move your items and points to your real account when Signastry goes live.</p>'):h};
 /* Shared online saving (Supabase). Everyone on the site sees the same data.
    Falls back to this browser only if the database can't be reached. */
 (function(){
