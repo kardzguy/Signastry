@@ -1,0 +1,23 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Signastry setup code</title>
+<style>body{margin:0;font:17px/1.5 -apple-system,system-ui,sans-serif;background:#fff;color:#0E1726;padding:20px 16px}h1{font-size:24px;margin:0 0 8px}p{margin:0 0 14px;color:#4A5565}button{all:unset;display:block;text-align:center;background:#1778B0;color:#fff;font-weight:800;font-size:22px;padding:18px;border-radius:10px;cursor:pointer;margin:14px 0}button.ok{background:#1F8A4C}textarea{width:100%;box-sizing:border-box;height:260px;font:13px/1.4 ui-monospace,Menlo,monospace;border:1px solid #D6DCE4;border-radius:8px;padding:10px}</style></head><body>
+<h1>Private tester list: setup code</h1><p>1. Tap the big button to copy the code.<br>2. Go back to Supabase, hold your finger in the empty SQL box, tap <b>Paste</b>.<br>3. Tap the green <b>Run</b> button.</p>
+<button id="cp" type="button">Copy the code</button>
+<textarea id="sql" readonly>create table if not exists public.tester_signups (
+  id bigint generated always as identity primary key,
+  created_at timestamptz not null default now(),
+  member_code text not null unique,
+  display_name text not null check (char_length(display_name) between 1 and 120),
+  email text not null check (char_length(email) between 5 and 200 and email like &#x27;%_@_%._%&#x27;)
+);
+
+alter table public.tester_signups enable row level security;
+
+drop policy if exists &quot;testers can add themselves&quot; on public.tester_signups;
+create policy &quot;testers can add themselves&quot; on public.tester_signups
+  for insert to anon, authenticated with check (true);
+
+revoke select, update, delete on public.tester_signups from anon, authenticated;
+grant insert on public.tester_signups to anon, authenticated;
+</textarea>
+<script>document.getElementById("cp").onclick=function(){var t=document.getElementById("sql"),b=this;function done(){b.textContent="Copied! Now paste it in Supabase";b.className="ok"}
+try{navigator.clipboard.writeText(t.value).then(done,function(){t.focus();t.select();t.setSelectionRange(0,99999);document.execCommand("copy");done()})}catch(e){t.focus();t.select();t.setSelectionRange(0,99999);document.execCommand("copy");done()}}</script></body></html>
