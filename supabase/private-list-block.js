@@ -1,0 +1,8 @@
+/* Private tester list: real emails go to a locked table the site can add to but never read. The open test data keeps only a note that the email is on file */
+var privSb=null,privBusy={};
+function privClient(){if(privSb)return privSb;if(!window.supabase||!window.supabase.createClient)return null;try{privSb=window.supabase.createClient("https://himwujrdazwkcvhgnpqj.supabase.co","sb_publishable_6fFjXAfouauZn7tmdCu94g_p-h1l3u3",{auth:{persistSession:false,autoRefreshToken:false}})}catch(e){privSb=null}return privSb}
+function privAdd(name,email,cb){var sb=privClient();if(!sb){cb(false);return}var row={member_code:memCode(name),display_name:name,email:email};
+sb.from("tester_signups").insert(row).then(function(r){cb(!r.error||r.error.code==="23505")},function(){cb(false)})}
+function privScrub(){if(!TEST_PHASE||!S||!S.members)return;Object.keys(S.members).forEach(function(n){var m=S.members[n];if(!m||!m.email||m.listed||privBusy[n])return;privBusy[n]=1;var em=m.email;privAdd(n,em,function(ok){privBusy[n]=0;if(ok&&S.members[n]&&S.members[n].email===em){S.members[n].email="";S.members[n].listed=true;try{save()}catch(e){}}})})}
+var _renderP2=render;render=function(){try{privScrub()}catch(e){}_renderP2()};
+var _signupViewPL=signupView;signupView=function(){var h=_signupViewPL();return TEST_PHASE?h.replace('<input id="suem" type="email" autocomplete="email">','<input id="suem" type="email" autocomplete="email"><p class="meta" style="margin:4px 0 0">Kept private. We use it to move your items and points to your real account when Signastry goes live.</p>'):h};
