@@ -35,6 +35,47 @@ create policy &quot;site can add contacts&quot; on public.private_contacts
   for insert to anon, authenticated with check (true);
 revoke select, update, delete on public.private_contacts from anon, authenticated;
 grant insert on public.private_contacts to anon, authenticated;
+
+create table if not exists public.site_visits (
+  id bigint generated always as identity primary key,
+  at timestamptz not null default now(),
+  vid text not null check (char_length(vid) between 4 and 40),
+  page text check (char_length(page) &lt;= 40),
+  source text check (char_length(source) &lt;= 60),
+  device text check (char_length(device) &lt;= 10)
+);
+alter table public.site_visits enable row level security;
+drop policy if exists &quot;site can add visits&quot; on public.site_visits;
+create policy &quot;site can add visits&quot; on public.site_visits
+  for insert to anon, authenticated with check (true);
+revoke select, update, delete on public.site_visits from anon, authenticated;
+grant insert on public.site_visits to anon, authenticated;
+
+drop function if exists public.visit_stats(int);
+create or replace function public.visit_stats(days int, pin text)
+returns json language sql security definer set search_path = public as $$
+  with ok as (select md5(&#x27;signastry-staff:&#x27; || coalesce(pin,&#x27;&#x27;)) = &#x27;44054613cf4e09d5ca9863fa3ad532cc&#x27; as yes),
+  p as (select now() - make_interval(days =&gt; least(greatest(coalesce(days,30),1),365)) as since),
+  v as (select * from site_visits, p where at &gt; p.since),
+  f as (select vid, min(at) as first_at from site_visits group by vid)
+  select case when (select yes from ok) then json_build_object(
+    &#x27;views&#x27;, (select count(*) from v where page &lt;&gt; &#x27;signed up&#x27;),
+    &#x27;visitors&#x27;, (select count(distinct vid) from v),
+    &#x27;new&#x27;, (select count(*) from f, p where f.first_at &gt; p.since),
+    &#x27;signups&#x27;, (select count(*) from v where page = &#x27;signed up&#x27;),
+    &#x27;daily&#x27;, (select coalesce(json_agg(d order by d.day), &#x27;[]&#x27;::json) from (
+       select to_char(at at time zone &#x27;America/New_York&#x27;, &#x27;YYYY-MM-DD&#x27;) as day, count(distinct vid) as visitors, count(*) as views
+       from v group by 1) d),
+    &#x27;sources&#x27;, (select coalesce(json_agg(s), &#x27;[]&#x27;::json) from (
+       select coalesce(source,&#x27;Unknown&#x27;) as name, count(distinct vid) as n from v group by 1 order by 2 desc limit 8) s),
+    &#x27;pages&#x27;, (select coalesce(json_agg(s), &#x27;[]&#x27;::json) from (
+       select coalesce(page,&#x27;Unknown&#x27;) as name, count(*) as n from v group by 1 order by 2 desc limit 8) s),
+    &#x27;devices&#x27;, (select coalesce(json_agg(s), &#x27;[]&#x27;::json) from (
+       select coalesce(device,&#x27;Unknown&#x27;) as name, count(distinct vid) as n from v group by 1 order by 2 desc) s)
+  ) else null end;
+$$;
+revoke execute on function public.visit_stats(int, text) from public;
+grant execute on function public.visit_stats(int, text) to anon, authenticated;
 </textarea>
 <script>document.getElementById("cp").onclick=function(){var t=document.getElementById("sql"),b=this;function done(){b.textContent="Copied! Now paste it in Supabase";b.className="ok"}
 try{navigator.clipboard.writeText(t.value).then(done,function(){t.focus();t.select();t.setSelectionRange(0,99999);document.execCommand("copy");done()})}catch(e){t.focus();t.select();t.setSelectionRange(0,99999);document.execCommand("copy");done()}}</script></body></html>
