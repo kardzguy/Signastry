@@ -1314,6 +1314,11 @@ if(d.qtx){invQuick=null;render();return}
 if(d.qtgo){var n=gv("qt-n").trim(),er=document.getElementById("qt-e");if(!n){er.textContent="Enter their name, or tap Skip.";return}
 var first=!invLog().some(function(x){return x.from===userName&&x.name.toLowerCase()===n.toLowerCase()});
 invLog().push({id:"INV-"+Date.now().toString(36)+Math.random().toString(36).slice(2,5),kind:"member",from:userName,name:n,contact:"",method:gv("qt-m"),date:today(),status:"sent",fu:[],tester:invQuick==="mtestmsg"});if(first)award(userName,"invite",n);invQuick=null;save();toast("Tracking your invitation to "+n);render();return}});
+/* Founder invite code for outreach letters: REF-FOUNDER lets a signer join directly. It has no paid referrer */
+var FOUNDER_REF="REF-FOUNDER",FOUNDER_BY="Doug Harris, founder of Signastry";
+var _refOwnerF=refOwner;refOwner=function(c){return String(c||"").toUpperCase()===FOUNDER_REF?FOUNDER_BY:_refOwnerF(c)};
+try{var _fq=(new URLSearchParams(location.search).get("ref")||"").toUpperCase();if(_fq===FOUNDER_REF&&!joinInv){sgMode="join";joinInv={ref:FOUNDER_BY}}}catch(e){}
+var _renderFC=render;render=function(){try{var ch=false;Object.keys(S.accts||{}).forEach(function(n){var a=S.accts[n];if(a&&a.referredBy===FOUNDER_BY){delete a.referredBy;a.founderInvite=a.joined||today();ch=true}});if(S.bucks&&S.bucks[FOUNDER_BY]){delete S.bucks[FOUNDER_BY];ch=true}if(ch)save()}catch(e){}_renderFC()};
 /* Shared online saving (Supabase). Everyone on the site sees the same data.
    Falls back to this browser only if the database can't be reached. */
 (function(){
