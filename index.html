@@ -1349,6 +1349,10 @@ document.getElementById("view").addEventListener("click",function(e){var t=e.tar
 if(d.cert&&role==="member"){certView=d.cert;tab="vault";render();scrollTo(0,0);return}
 if(d.certclose){certView=null;render();return}
 if(d.certprint&&certView){var i=mine().find(function(x){return x.id===certView});if(i){i.hist.push([today(),"Certificate of Registration printed by the owner","Owner",i.loc]);save()}setTimeout(function(){window.print()},200);return}});
+/* After launch (test mode off): members and signers type their name instead of picking it from a list, so nobody can see who has joined */
+function slHide(h){var a=h.indexOf('<select id="lgn">');if(a<0)return h;var b=h.indexOf('</select>',a)+9;h=h.slice(0,a)+'<input id="lgn" autocomplete="name" placeholder="Your full name, as on your account">'+h.slice(b);return h.replace(/<p class="meta">Demo only\.[^<]*<\/p>/,'')}
+var _loginFormSL=loginForm;loginForm=function(){var h=_loginFormSL();return (TEST_PHASE||loginRole==="admin")?h:slHide(h)};
+document.addEventListener("click",function(e){var t=e.target.closest&&e.target.closest("#lgin");if(!t)return;var f=document.getElementById("lgn");if(!f||f.tagName!=="INPUT")return;var v=f.value.trim().replace(/\s+/g," ").toLowerCase(),L=loginRole==="signer"?allSigners():Object.keys(MEMBERS).concat(Object.keys(S.members||{})),m=L.find(function(n){return n.toLowerCase()===v});if(m)f.value=m},true);
 /* Shared online saving (Supabase). Everyone on the site sees the same data.
    Falls back to this browser only if the database can't be reached. */
 (function(){

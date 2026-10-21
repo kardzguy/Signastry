@@ -1,0 +1,4 @@
+/* After launch (test mode off): members and signers type their name instead of picking it from a list, so nobody can see who has joined */
+function slHide(h){var a=h.indexOf('<select id="lgn">');if(a<0)return h;var b=h.indexOf('</select>',a)+9;h=h.slice(0,a)+'<input id="lgn" autocomplete="name" placeholder="Your full name, as on your account">'+h.slice(b);return h.replace(/<p class="meta">Demo only\.[^<]*<\/p>/,'')}
+var _loginFormSL=loginForm;loginForm=function(){var h=_loginFormSL();return (TEST_PHASE||loginRole==="admin")?h:slHide(h)};
+document.addEventListener("click",function(e){var t=e.target.closest&&e.target.closest("#lgin");if(!t)return;var f=document.getElementById("lgn");if(!f||f.tagName!=="INPUT")return;var v=f.value.trim().replace(/\s+/g," ").toLowerCase(),L=loginRole==="signer"?allSigners():Object.keys(MEMBERS).concat(Object.keys(S.members||{})),m=L.find(function(n){return n.toLowerCase()===v});if(m)f.value=m},true);
