@@ -1,0 +1,3 @@
+/* Printing that works on phones: print right away (phones block delayed prints), and explain if no print window opened */
+var prSeen=false;window.addEventListener("beforeprint",function(){prSeen=true});
+function doPrint(){prSeen=false;try{window.print()}catch(e){}setTimeout(function(){if(!prSeen&&!document.hidden){var u=navigator.userAgent,ios=/iPhone|iPad|iPod/.test(u),inapp=/FBAN|FBAV|Instagram|GSA\/|Line\/|Twitter/.test(u);toast(inapp?"This app's browser can't print. Tap the menu (⋯) and choose Open in Safari or Open in browser, then try again.":ios?"No print window? Tap the Share button at the bottom of Safari, then choose Print.":"No print window? Press Ctrl+P (Cmd+P on a Mac) to print.")}},1200)}

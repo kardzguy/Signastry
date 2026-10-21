@@ -945,7 +945,7 @@ var _renderT=render;render=function(){if(tab!=="vault"||role!=="member")insView=
 document.getElementById("view").addEventListener("click",function(e){var t=e.target.closest("button");if(!t)return;var d=t.dataset;
 if(d.insopen){insView=true;render();scrollTo(0,0);return}
 if(d.insclose){insView=false;render();return}
-if(d.insprint){window.print();return}
+if(d.insprint){doPrint();return}
 if(d.stole){var it=S.items.find(function(x){return x.id===d.stole});if(!it||it.owner!==ME)return;if(stoleArm!==it.id){stoleArm=it.id;t.textContent="Tap again to report it stolen";return}stoleArm=null;
 it.stolen={date:today()};it.hist.push([today(),"Reported stolen by the owner","Private owner",it.loc]);S.listings.forEach(function(l){if(l.item===it.id&&l.status==="active")l.status="closed"});(S.offers||[]).forEach(function(o){if(o.item===it.id&&(o.status==="open"||o.status==="countered"))o.status="closed"});save();toast(it.id+" reported stolen. Lookups and QR scans now show it.");render();return}
 if(d.recov){var r=S.items.find(function(x){return x.id===d.recov});if(!r||r.owner!==ME)return;delete r.stolen;r.hist.push([today(),"Recovered by the owner","Private owner",r.loc]);save();toast(r.id+" marked as recovered.");render();return}});
@@ -1131,11 +1131,11 @@ document.getElementById("view").addEventListener("click",function(e){var t=e.tar
 if(d.seal&&role==="member"){sealView=d.seal;sealJust=[];sealTest=false;tab="vault";render();scrollTo(0,0);return}
 if(d.sealclose){sealView=null;sealJust=[];sealTest=false;render();return}
 if(d.sealtest!==undefined&&role==="member"){sealTest=d.sealtest==="1";render();scrollTo(0,0);return}
-if(d.sealtestprint&&sealTest){window.print();return}
+if(d.sealtestprint&&sealTest){doPrint();return}
 if(d.sealprint&&role==="member"){var all=sealView==="ALL",list=(all?mine():mine().filter(function(x){return x.id===sealView})).filter(function(i){return sealCan(i)&&sealJust.indexOf(i.id)<0});if(!list.length)return;
 if(!window.confirm("Each item's seals can be printed only once. Make sure your label paper is loaded.\n\nPrint now?"))return;
 list.forEach(function(i){var s=i.seal||{n:0,allow:0},re=s.n>0,old=(s.cur||[]).map(function(c){return {n:c.n,k:c.k,d:c.d,v:today()}});s.old=(s.old||[]).concat(old);s.cur=[{n:sealNew(),k:"Item",d:today()}];s.cur.push({n:sealNew(),k:"Certificate",d:today()});s.n=(s.n||0)+1;s.at=today();var nums="new numbered item and certificate seals issued";i.seal=s;if(re){s.allow=0;i.hist.push([today(),"QR seals reprinted by the owner (print "+s.n+", approved by Signastry): "+nums+(old.length?". The previous seals are no longer valid":""),"Owner",i.loc])}else i.hist.push([today(),"QR seals printed by the owner: "+nums,"Owner",i.loc]);sealJust.push(i.id)});
-save();render();setTimeout(function(){window.print()},400);return}
+save();render();doPrint();return}
 if(d.sealreq&&role==="member"){var i=mine().find(function(x){return x.id===d.sealreq}),rs=gv("sr-"+d.sealreq),er=document.getElementById("sre-"+d.sealreq);if(!i)return;if(rs.length<10){er.textContent="Please explain why you need new seals (at least a short sentence).";return}
 sealReqs().push({id:"SR-"+Date.now().toString(36),item:i.id,by:userName,date:today(),reason:rs,status:"pending"});i.hist.push([today(),"Reprint of QR seals requested by the owner. Reason: "+rs,"Owner",i.loc]);save();toast("Reprint request sent. Signastry will review it.");render();return}
 if((d.sealok||d.sealno)&&role==="admin"){var rid=d.sealok||d.sealno,r=sealReqs().find(function(x){return x.id===rid}),note=gv("sa-"+rid),ee=document.getElementById("sae-"+rid);if(!r)return;if(note.length<5){ee.textContent="Write a short note documenting the decision.";return}
@@ -1348,7 +1348,7 @@ var _renderC=render;render=function(){if(tab!=="vault"||role!=="member")certView
 document.getElementById("view").addEventListener("click",function(e){var t=e.target.closest("button");if(!t)return;var d=t.dataset;
 if(d.cert&&role==="member"){certView=d.cert;tab="vault";render();scrollTo(0,0);return}
 if(d.certclose){certView=null;render();return}
-if(d.certprint&&certView){var i=mine().find(function(x){return x.id===certView});if(i){i.hist.push([today(),"Certificate of Registration printed by the owner","Owner",i.loc]);save()}setTimeout(function(){window.print()},200);return}});
+if(d.certprint&&certView){var i=mine().find(function(x){return x.id===certView});doPrint();if(i){i.hist.push([today(),"Certificate of Registration printed by the owner","Owner",i.loc]);setTimeout(function(){save()},300)}return}});
 /* After launch (test mode off): members and signers type their name instead of picking it from a list, so nobody can see who has joined */
 function slHide(h){var a=h.indexOf('<select id="lgn">');if(a<0)return h;var b=h.indexOf('</select>',a)+9;h=h.slice(0,a)+'<input id="lgn" autocomplete="name" placeholder="Your full name, as on your account">'+h.slice(b);return h.replace(/<p class="meta">Demo only\.[^<]*<\/p>/,'')}
 var _loginFormSL=loginForm;loginForm=function(){var h=_loginFormSL();return (TEST_PHASE||loginRole==="admin")?h:slHide(h)};
@@ -1362,6 +1362,9 @@ if(vaultPublic().some(function(x){return x.id===r.id}))return '<div class="card 
 return ""}
 var _recordPanelT=recordPanel;recordPanel=function(r){return actBox(r)+_recordPanelT(r)};
 document.getElementById("view").addEventListener("click",function(e){var t=e.target.closest("button");if(!t||!t.dataset.goact||role!=="member")return;var p=t.dataset.goact.split("|");tab="market";if(p[0]==="buy"){mkSub="browse";mkQ="";mkOpen=p[1]}else{mkSub="vault";vxQ="";vxOpen=p[1]}render();setTimeout(function(){var el=document.querySelector(p[0]==="buy"?'[data-mkopen="'+p[1]+'"]':'[data-vx="'+p[1]+'"]');if(el)el.scrollIntoView({block:"start"})},50)});
+/* Printing that works on phones: print right away (phones block delayed prints), and explain if no print window opened */
+var prSeen=false;window.addEventListener("beforeprint",function(){prSeen=true});
+function doPrint(){prSeen=false;try{window.print()}catch(e){}setTimeout(function(){if(!prSeen&&!document.hidden){var u=navigator.userAgent,ios=/iPhone|iPad|iPod/.test(u),inapp=/FBAN|FBAV|Instagram|GSA\/|Line\/|Twitter/.test(u);toast(inapp?"This app's browser can't print. Tap the menu (⋯) and choose Open in Safari or Open in browser, then try again.":ios?"No print window? Tap the Share button at the bottom of Safari, then choose Print.":"No print window? Press Ctrl+P (Cmd+P on a Mac) to print.")}},1200)}
 /* Shared online saving (Supabase). Everyone on the site sees the same data.
    Falls back to this browser only if the database can't be reached. */
 (function(){

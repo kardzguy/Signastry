@@ -19,4 +19,4 @@ var _renderC=render;render=function(){if(tab!=="vault"||role!=="member")certView
 document.getElementById("view").addEventListener("click",function(e){var t=e.target.closest("button");if(!t)return;var d=t.dataset;
 if(d.cert&&role==="member"){certView=d.cert;tab="vault";render();scrollTo(0,0);return}
 if(d.certclose){certView=null;render();return}
-if(d.certprint&&certView){var i=mine().find(function(x){return x.id===certView});if(i){i.hist.push([today(),"Certificate of Registration printed by the owner","Owner",i.loc]);save()}setTimeout(function(){window.print()},200);return}});
+if(d.certprint&&certView){var i=mine().find(function(x){return x.id===certView});doPrint();if(i){i.hist.push([today(),"Certificate of Registration printed by the owner","Owner",i.loc]);setTimeout(function(){save()},300)}return}});
