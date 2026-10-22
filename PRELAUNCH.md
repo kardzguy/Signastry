@@ -25,4 +25,5 @@ Items to finish before the live site opens. Test-mode-only features switch off t
 ## Site
 - Enforce HTTPS in GitHub Pages.
 - Switch outreach letter links from test.signastry.com to the live address.
-- Turn test mode off (removes TEST stamps, tester invite, demo hints).
+- Turn test mode off (removes TEST stamps, tester invite, Founding Collector invite boxes, demo hints).
+- Retire the Founding Collector page (/founding): replace it with a short "founding spots are closed" page or redirect it to the home page.
