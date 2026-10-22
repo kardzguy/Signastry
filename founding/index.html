@@ -1,0 +1,470 @@
+<!doctype html><html lang="en" data-theme="light"><head><meta charset="utf-8"><meta name="robots" content="noindex"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Founding Collector Invite</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Source+Sans+3:wght@400;600;700&display=swap">
+<style>
+/* Layout: Signastry brand system — black + sky-blue two-tone uppercase headlines on light grey, sketched stroke accents; text blocks sit beside square campaign images, stacking on phones. */
+:root{
+  --bg:#f3f4f6; --paper:#ffffff; --ink:#111417; --muted:#59616a; --line:#d9dde2;
+  --blue:#29a5df; --blue-strong:#1878b0; --on-blue:#ffffff; --logo:#4a84b2;
+  --stroke:#c9dbe8; --soft:#e8f4fb; --soft-line:#a9d6ef; --ok:#1f8a52; --alert:#c0392b;
+  --f-display:"Montserrat", "Helvetica Neue", Arial, sans-serif;
+  --f-body:"Source Sans 3", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0d1216; --paper:#151c22; --ink:#eef2f5; --muted:#9ba7b2; --line:#26313b;
+  --blue:#4fb8ea; --blue-strong:#4fb8ea; --on-blue:#06141c; --logo:#6aa3d1;
+  --stroke:#23384a; --soft:#11232f; --soft-line:#245a7a; --ok:#5fd394; --alert:#ff8a7a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0d1216; --paper:#151c22; --ink:#eef2f5; --muted:#9ba7b2; --line:#26313b;
+  --blue:#4fb8ea; --blue-strong:#4fb8ea; --on-blue:#06141c; --logo:#6aa3d1;
+  --stroke:#23384a; --soft:#11232f; --soft-line:#245a7a; --ok:#5fd394; --alert:#ff8a7a; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.6}
+.wrap{max-width:1040px;margin:0 auto;padding-block:20px 64px;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));display:flex;flex-direction:column;gap:56px}
+h1,h2,h3{font-family:var(--f-display);text-transform:uppercase;line-height:1.08;margin:0;text-wrap:balance;font-weight:800;letter-spacing:.005em}
+h1{font-size:clamp(36px,7vw,64px)}
+h2{font-size:clamp(26px,4.4vw,38px)}
+h3{font-size:17px;font-weight:700;letter-spacing:.02em}
+h1 em,h2 em{font-style:normal;color:var(--blue)}
+p{margin:0;max-width:65ch}
+section{display:flex;flex-direction:column;gap:16px}
+.eyebrow{font-family:var(--f-display);font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--blue-strong)}
+.lede{font-size:19px;color:var(--muted)}
+.muted{color:var(--muted)}
+
+/* Brand bar */
+.brand{display:flex;align-items:center;gap:12px}
+.brand img{width:48px;height:auto;border-radius:50%;background:#fff}
+.brand span{font-family:var(--f-display);font-weight:800;letter-spacing:.12em;font-size:18px}
+.brand span b{color:var(--blue);font-weight:800}
+
+/* Sketch stroke decoration, echoing the campaign graphics */
+.strokes{position:relative}
+.strokes::before{content:"";position:absolute;right:-8px;top:-10px;width:140px;height:90px;background:repeating-linear-gradient(-8deg,transparent 0 7px,var(--stroke) 7px 9px);z-index:0;pointer-events:none;opacity:.9}
+.strokes > *{position:relative;z-index:1}
+
+/* Text + image split */
+.split{display:grid;grid-template-columns:1fr;gap:24px;align-items:center}
+@media (min-width:820px){.split{grid-template-columns:1.1fr .9fr;gap:40px}.split.flip > .media{order:-1}}
+.split > *{min-width:0}
+.media img{display:block;width:100%;max-width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:6px;box-shadow:0 10px 30px -18px rgba(0,0,0,.45)}
+.copy{display:flex;flex-direction:column;gap:16px}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:700 15px var(--f-display);letter-spacing:.06em;text-transform:uppercase;padding:15px 22px;border-radius:4px;border:2px solid var(--blue-strong);background:var(--blue-strong);color:var(--on-blue);cursor:pointer;text-decoration:none}
+.btn:hover{filter:brightness(1.1)}
+.btn.ghost{background:transparent;color:var(--blue-strong)}
+.btn:focus-visible,.chk input:focus-visible,a:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.row{display:flex;gap:12px;flex-wrap:wrap}
+
+.limit{border:2px solid var(--blue);border-radius:4px;padding:14px 16px;display:flex;gap:16px;align-items:center;flex-wrap:wrap;background:var(--paper)}
+.limit b{font-family:var(--f-display);font-size:48px;line-height:1;color:var(--blue);font-weight:800}
+.limit p{min-width:0;flex:1 1 220px}
+
+.threats{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
+.threats li{font-family:var(--f-display);font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;border:1.5px solid var(--blue);color:var(--blue-strong);border-radius:3px;padding:6px 10px;background:var(--paper)}
+
+.prob{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.prob div{background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.prob .tag{font-family:var(--f-display);font-weight:700;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--alert)}
+.prob p{color:var(--muted);font-size:16px}
+
+.solve{background:var(--ink);color:var(--bg);border-radius:6px;padding:28px 20px}
+.solve .eyebrow{color:var(--blue)}
+.solve h2 em{color:var(--blue)}
+.solve p{color:var(--bg);opacity:.9}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.cell{border-top:3px solid var(--blue);padding-top:10px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.cell p{color:var(--muted);font-size:16px}
+
+.fees{width:100%;border-collapse:collapse;font-size:16px;background:var(--paper)}
+.fees th,.fees td{text-align:left;padding:11px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+.fees th{font-family:var(--f-display);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.fees td.us,.free{color:var(--ok);font-weight:700}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:4px}
+
+.notice{background:var(--soft);border:1px solid var(--soft-line);border-left:4px solid var(--blue);border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.notice strong{font-family:var(--f-display);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--blue-strong)}
+
+.cta-band{background:var(--paper);border:2px solid var(--blue);border-radius:6px;padding:24px 20px}
+ul.tight{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px}
+
+ol.flow{list-style:none;margin:0;padding:0;counter-reset:s;max-width:65ch}
+ol.flow li{counter-increment:s;display:grid;grid-template-columns:44px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+ol.flow li::before{content:counter(s,decimal-leading-zero);font-family:var(--f-display);font-weight:800;color:var(--blue);font-size:16px}
+.pts{font-family:var(--f-display);font-weight:700;font-size:13px;color:var(--blue-strong)}
+
+.task{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:16px;display:flex;flex-direction:column;gap:8px}
+.task-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.chk{display:flex;gap:12px;align-items:flex-start;padding:6px 0;cursor:pointer}
+.chk input{width:20px;height:20px;margin-top:3px;accent-color:var(--blue-strong);flex:none}
+.chk span{min-width:0}
+.chk small{display:block;color:var(--muted);font-size:15px}
+.progress{height:8px;background:var(--line);border-radius:4px;overflow:hidden}
+.progress i{display:block;height:100%;width:0;background:var(--blue);transition:width .3s}
+@media (prefers-reduced-motion: reduce){.progress i{transition:none}}
+.tasks{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.score{background:var(--paper);border:2px solid var(--blue);border-radius:6px;padding:18px;display:grid;grid-template-columns:1fr;gap:16px}
+@media (min-width:700px){.score{grid-template-columns:auto 1fr;align-items:center}.score .progress{grid-column:1/-1}}
+.score-main{display:flex;flex-direction:column;gap:2px}
+.score-main b{font-family:var(--f-display);font-weight:800;font-size:64px;line-height:1;color:var(--blue);font-variant-numeric:tabular-nums}
+.score-side{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
+.stat{display:flex;flex-direction:column;gap:4px;border-left:3px solid var(--line);padding-left:12px;min-width:0}
+.stat strong{font-family:var(--f-display);font-size:20px;font-variant-numeric:tabular-nums}
+.chip{display:inline-block;font-size:13px!important;letter-spacing:.06em;text-transform:uppercase;padding:4px 8px;border-radius:3px;border:1.5px solid var(--line);color:var(--muted);width:max-content;max-width:100%}
+.chip.on{border-color:var(--ok);color:var(--ok)}
+.seg{display:flex;flex-wrap:wrap;gap:0;border:2px solid var(--blue-strong);border-radius:4px;width:max-content;max-width:100%;overflow:hidden}
+.seg button{font:700 13px var(--f-display);letter-spacing:.06em;text-transform:uppercase;padding:10px 14px;border:0;background:transparent;color:var(--blue-strong);cursor:pointer}
+.seg button[aria-selected="true"]{background:var(--blue-strong);color:var(--on-blue)}
+.seg button:focus-visible{outline:3px solid var(--blue);outline-offset:-3px}
+.task h3{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.task h3 small{font-family:var(--f-body);text-transform:none;letter-spacing:0;font-weight:600;color:var(--muted);font-size:14px}
+.chk.is-done > span > span:first-child{text-decoration:line-through;text-decoration-color:var(--muted);color:var(--muted)}
+.chk .val{margin-left:auto;font-family:var(--f-display);font-weight:700;font-size:12px;color:var(--blue-strong);white-space:nowrap;padding-top:4px}
+.chk.is-done .val{color:var(--ok)}
+.bonus-row{border-top:1px dashed var(--line);margin-top:4px;padding-top:10px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:15px}
+footer{border-top:1px solid var(--line);padding-top:16px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+</style>
+
+<!-- ============ PAGE 1: OVERVIEW ============ -->
+<main class="wrap" id="view-overview">
+  <header class="brand" style="justify-content:space-between;flex-wrap:wrap"><span style="display:flex;align-items:center;gap:12px"><img src="img/logo.png" alt=""><span>SIGNA<b>STRY</b></span></span><a class="btn joinbtn" href="/?join">Join free</a></header>
+
+  <section class="split">
+    <div class="copy strokes">
+      <span class="eyebrow">For collectors of signed memorabilia</span>
+      <h1>Authentic, <em>straight from the signer.</em></h1>
+      <p class="lede">Signastry is a collector-built platform that gives every signed item a permanent, verified home. Catalog your collection, trade with confidence, and get authentication from the one person who truly knows: the person who signed it.</p>
+      <div class="row">
+        <a class="btn joinbtn" href="/?join">Claim a founding spot →</a><button class="btn ghost" type="button" data-go="guide">How testing works</button>
+        <a class="btn ghost" href="#problem">Why we built this</a>
+      </div>
+    </div>
+    <div class="media"><img src="img/difference.jpg" alt="The Signastry Difference: a framed, signed number 12 football jersey"></div>
+  </section>
+
+  <section class="split flip">
+    <div class="copy">
+      <span class="eyebrow">Your secure vault</span>
+      <h2>Protect your collection from what you <em>can't control</em></h2>
+      <ul class="threats" aria-label="Protected against">
+        <li>Theft</li><li>Fire</li><li>Flood</li><li>Fraud</li><li>Counterfeiting</li>
+      </ul>
+      <p>Create a secure vault for your valuable collection. If an item is stolen, or your home suffers a fire or flood, your vault still holds a complete record of what you owned: photos, details, provenance and authentication. That record supports insurance claims and helps identify and recover stolen pieces. Signer authentication protects you from fraud and counterfeits before you buy or sell.</p>
+      <p><strong>Be a part of the most secure platform available.</strong></p>
+      <div class="row"><button class="btn" type="button" data-go="guide">Secure my collection →</button></div>
+    </div>
+    <div class="media"><img src="img/preventing-fraud.jpg" alt="Preventing fraud and maintaining values: a padlock on a wallet and cards"></div>
+  </section>
+
+  <section id="problem">
+    <div class="split">
+      <div class="copy">
+        <span class="eyebrow">The problem</span>
+        <h2>The hobby has a <em>trust problem</em></h2>
+        <p>Every collector has felt it. You find the piece you've been hunting, and then the doubt sets in. Is the signature real? Will anyone believe it when you sell?</p>
+      </div>
+      <div class="media"><img src="img/solving-problem.jpg" alt="Identifying and solving a significant problem: a signed basketball"></div>
+    </div>
+    <div class="prob">
+      <div><span class="tag">Forgeries</span><h3>Fakes are everywhere</h3><p>Forged signatures circulate on every marketplace, and they keep getting harder to spot.</p></div>
+      <div><span class="tag">Paper certificates</span><h3>A COA is only an opinion</h3><p>Third-party certificates vary in quality, can be faked themselves, and rarely involve the signer at all.</p></div>
+      <div><span class="tag">Lost history</span><h3>Provenance disappears</h3><p>Receipts, photos and paperwork get separated from the item, and its value goes with them.</p></div>
+      <div><span class="tag">Scattered records</span><h3>Collections live everywhere</h3><p>Spreadsheets, shoeboxes and phone photos. No single record of what you own.</p></div>
+      <div><span class="tag">Risky trades</span><h3>Buying blind</h3><p>Sellers can't prove authenticity and buyers can't verify it. Both sides take the risk.</p></div>
+    </div>
+  </section>
+
+  <section class="solve">
+    <div class="split flip">
+      <div class="copy">
+        <span class="eyebrow">What we're solving</span>
+        <h2>We go to <em>the source</em></h2>
+        <p>Instead of asking a third party to guess, Signastry submits your item to the signer for confirmation. The result is attached to that item's record in your vault and travels with it when it changes hands. One trusted record per item, from first entry to every future owner.</p>
+        <div class="row"><button class="btn" type="button" data-go="guide">Get verified →</button></div>
+      </div>
+      <div class="media"><img src="img/verified-signers.jpg" alt="Get verified by the actual signers: a hockey player in action"></div>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow">Our advantages</span>
+    <h2>Why collectors are <em>switching</em></h2>
+    <div class="tbl">
+      <table class="fees">
+        <thead><tr><th></th><th>The usual way</th><th>With Signastry</th></tr></thead>
+        <tbody>
+          <tr><td>Who authenticates</td><td>A third-party opinion</td><td class="us">The signer</td></tr>
+          <tr><td>Your records</td><td>Scattered files and paper</td><td class="us">One organized vault</td></tr>
+          <tr><td>Storage cost</td><td>Varies</td><td class="us">Free, forever</td></tr>
+          <tr><td>Authentication cost</td><td>Often paid whatever the outcome</td><td class="us">Paid only on success</td></tr>
+          <tr><td>Provenance on resale</td><td>Often lost</td><td class="us">Travels with the item</td></tr>
+          <tr><td>Privacy</td><td>All or nothing</td><td class="us">You choose, item by item</td></tr>
+          <tr><td>Trading</td><td>Separate sites, unverified</td><td class="us">Built in, with records attached</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <h2>Be one of the <em>first 500</em></h2>
+    <p>We're opening the doors to 500 founding collectors. Get in now, build your vault free, and lock in benefits that won't be offered again.</p>
+    <div class="row"><a class="btn joinbtn" href="/?join">Claim a founding spot →</a><button class="btn ghost" type="button" data-go="guide">How testing works</button></div>
+  </section>
+
+  <section class="split">
+    <div class="copy">
+      <span class="eyebrow">Collector beta · invitation</span>
+      <h2>Only <em>500</em> founding spots</h2>
+      <p class="lede">We're opening Signastry to just 500 testers. Once those spots are filled, the founding program closes for good.</p>
+      <div class="limit"><b>500</b><p><strong>Spots are limited and first come, first served.</strong> Founding benefits go only to the first 500 collectors who join.</p></div>
+      <div class="row">
+        <a class="btn joinbtn" href="/?join">Claim your spot →</a>
+        <a class="btn ghost" href="#benefits">See founding benefits</a>
+      </div>
+    </div>
+    <div class="media"><img src="img/fraud-forgery.jpg" alt="Eliminating fraud and forgery: a signed baseball"></div>
+  </section>
+
+  <section class="split flip">
+    <div class="copy">
+      <span class="eyebrow">What's inside</span>
+      <h2>Everything your <em>collection</em> needs</h2>
+      <div class="grid">
+        <div class="cell"><h3>Your vault</h3><p>A complete, organized record of every item, across every category you collect.</p></div>
+        <div class="cell"><h3>The marketplace</h3><p>Post items, buy, sell and make offers directly with other collectors.</p></div>
+        <div class="cell"><h3>Signer authentication</h3><p>Submit an item to its signer for verification and attach the result to your record.</p></div>
+      </div>
+    </div>
+    <div class="media"><img src="img/authentic-history.jpg" alt="We keep the authentic history: game jerseys and a helmet on display"></div>
+  </section>
+
+  <section id="benefits">
+    <span class="eyebrow">Limited to the first 500 testers</span>
+    <h2>Founding collector <em>benefits</em></h2>
+    <p>These benefits are reserved for the first 500 collectors only. They won't be offered again after the test phase.</p>
+    <ul class="tight">
+      <li><strong>Your vault stays free.</strong> Every entry you make during testing carries over to the live platform at no cost.</li>
+      <li><strong>Founding Collector badge</strong> on your profile, permanently.</li>
+      <li><strong>Priority placement</strong> in the signer authentication queue at launch.</li>
+      <li><strong>Referral points</strong> earned during testing carry into the live program.</li>
+      <li><strong>A direct line to the team.</strong> Your feedback shapes what we build next.</li>
+    </ul>
+  </section>
+
+  <section>
+    <span class="eyebrow">What it costs</span>
+    <h2>Free to keep. <em>Pay only for authentication.</em></h2>
+    <div class="tbl">
+      <table class="fees">
+        <thead><tr><th>Action</th><th>During testing</th><th>After launch</th></tr></thead>
+        <tbody>
+          <tr><td>Keeping items in your vault</td><td class="free">No charge</td><td class="free">Free</td></tr>
+          <tr><td>Posting, buying, selling, offers</td><td class="free">Not charged</td><td>Live</td></tr>
+          <tr><td>Signer authentication</td><td class="free">Not charged</td><td>Charged on success</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="notice" role="note">
+      <strong>Testing phase</strong>
+      <p>All financial actions during testing are null. No money moves, no payments are collected, and no purchase or sale is binding. When we go live, you keep every vault entry free. The only charge you will ever see is for a successful signer authentication you choose to request.</p>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <h2>Spots <em>won't last</em></h2>
+    <p>Once 500 collectors have joined, the founding program closes. Claim your spot now, then the next page walks you through everything we'd like you to try.</p>
+    <div class="row"><a class="btn joinbtn" href="/?join">Claim your spot →</a></div>
+  </section>
+
+  <footer><span class="eyebrow">Signastry · founding tester program</span><span class="muted">Limited to 500 collectors</span></footer>
+</main>
+
+<!-- ============ PAGE 2: TESTER GUIDE ============ -->
+<main class="wrap" id="view-guide" hidden>
+  <header class="brand" style="justify-content:space-between;flex-wrap:wrap"><span style="display:flex;align-items:center;gap:12px"><img src="img/logo.png" alt=""><span>SIGNA<b>STRY</b></span></span><a class="btn joinbtn" href="/?join">Join free</a></header>
+  <div class="row"><button class="btn ghost" type="button" data-go="overview">← Back to overview</button></div>
+
+  <section class="split">
+    <div class="copy strokes">
+      <span class="eyebrow">Tester guide</span>
+      <h1>How to <em>test</em> the platform</h1>
+      <p class="lede">Use Signastry the way you would on day one of launch. The more you try, the better it gets.</p>
+      <div class="notice" role="note">
+        <strong>Reminder: all financial transactions are null</strong>
+        <p>Nothing you buy, sell, offer or pay for during testing is real or active. No funds are charged or transferred, and no trade is binding.</p>
+      </div>
+    </div>
+    <div class="media"><img src="img/registration.jpg" alt="Your official registration becomes a permanent bit of history"></div>
+  </section>
+
+  <section>
+    <h2>Treat it as <em>real</em></h2>
+    <p>Enter complete, accurate records of the items you actually own: title, category, signer, condition, year, photos, provenance and any certificates. <strong>Your vault entries are kept.</strong> If you choose to stay a member after testing, everything you enter now becomes your permanent vault, free of charge.</p>
+  </section>
+
+  <section id="tracker">
+    <span class="eyebrow">Points tracker</span>
+    <h2>Your test <em>checklist</em></h2>
+    <p>Every task you complete earns <strong>10 points</strong>. Add an item in <strong>every category</strong> and earn a <strong>100-point bonus</strong>. Check off each task as you finish it and see what you haven't tried yet.</p>
+
+    <div class="score">
+      <div class="score-main"><span class="eyebrow">Points earned</span><b id="pts">0</b><span class="muted" id="pts-max">of 0 possible</span></div>
+      <div class="score-side">
+        <div class="stat"><span class="eyebrow">Tasks done</span><strong id="done">0 / 0</strong></div>
+        <div class="stat"><span class="eyebrow">Not yet tried</span><strong id="left">0</strong></div>
+        <div class="stat"><span class="eyebrow">All-category bonus</span><strong id="bonus" class="chip">Locked · +100</strong></div>
+      </div>
+      <div class="progress" aria-hidden="true"><i id="bar"></i></div>
+    </div>
+
+    <div class="seg" role="tablist" aria-label="Filter tasks">
+      <button type="button" role="tab" id="f-todo" data-f="todo" aria-selected="true">Not yet tried</button>
+      <button type="button" role="tab" id="f-done" data-f="done" aria-selected="false">Completed</button>
+      <button type="button" role="tab" id="f-all" data-f="all" aria-selected="false">All tasks</button>
+    </div>
+
+    <div id="groups" class="tasks"></div>
+    <p id="empty" class="notice" hidden></p>
+    <div class="row"><button class="btn ghost" type="button" id="reset">Clear my checkmarks</button><span id="confirm" class="row" hidden><span class="muted">Clear every checkmark?</span><button class="btn" type="button" id="reset-yes">Yes, clear</button><button class="btn ghost" type="button" id="reset-no">Cancel</button></span></div>
+    <p class="muted">This tracker is for your own reference and is saved on this device only. Your official points balance is the one shown in your Signastry account.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">Referral program</span>
+    <h2>Invite collectors, <em>earn points</em></h2>
+    <p>Every tester gets a personal referral link inside their account. We want you to use it so we can see the whole flow work, from the invite to the points landing in your account.</p>
+    <ol class="flow">
+      <li><div><strong>Copy your referral link</strong><br>Find it in your account dashboard.</div></li>
+      <li><div><strong>Share it</strong><br>Send it to collectors you know, or post it in your groups and feeds.</div></li>
+      <li><div><strong>They join</strong><br>Points are awarded when your referral creates an account. <span class="pts">+100 pts</span></div></li>
+      <li><div><strong>They build a vault</strong><br>More points when they add their first five items. <span class="pts">+150 pts</span></div></li>
+      <li><div><strong>Check your balance</strong><br>Confirm the points show up and tell us if anything looks wrong.</div></li>
+    </ol>
+    <p>Points earned during testing carry over to the live referral program.</p>
+  </section>
+
+  <section>
+    <h2>Tell us what <em>you find</em></h2>
+    <p>If something breaks, confuses you, or works especially well, report it through the feedback option in your account. Specific details, like which screen and what you tapped, help us fix it fastest.</p>
+    <div class="row"><button class="btn ghost" type="button" data-go="overview">← Back to overview</button></div>
+  </section>
+
+  <footer><span class="eyebrow">Signastry · testing phase</span><span class="muted">All financial actions are null</span></footer>
+</main>
+
+<script>
+(function(){
+  const views={overview:document.getElementById('view-overview'),guide:document.getElementById('view-guide')};
+  function show(name,scroll){
+    if(!views[name]) name='overview';
+    for(const k in views) views[k].hidden = k!==name;
+    if(scroll) window.scrollTo({top:0});
+  }
+  document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>{
+    const v=b.dataset.go; show(v,true);
+    try{ history.replaceState(null,'',v==='guide'?'#guide':'#'); }catch(e){}
+  }));
+  show(location.hash==='#guide'?'guide':'overview',false);
+  window.addEventListener('hashchange',()=>{ if(location.hash==='#guide') show('guide',true); else if(location.hash===''||location.hash==='#') show('overview',true); });
+
+  const PER=10, BONUS=100;
+  // Categories: replace with Signastry's official category list.
+  const CATS=["Baseball","Football","Basketball","Hockey","Soccer","Boxing & MMA","Golf","Racing","Entertainment","Music","Historical & Political"];
+  const GROUPS=[
+    {name:"Account & profile",tasks:[
+      ["acct","Create your account","Register and verify your email."],
+      ["prof","Complete your profile","Add your name, photo and collecting interests."]]},
+    {name:"Your vault",tasks:[
+      ["add","Add your first item","Create a vault entry for an item you own."],
+      ["photo","Upload photos","Add clear photos of the item and the signature."],
+      ["detail","Fill in every detail field","Signer, condition, year, provenance and certificates."],
+      ["edit","Edit an existing entry","Update a detail and save the change."],
+      ["priv","Mark part of your vault private","Confirm private items are hidden from other members."],
+      ["pub","Make an item public","Confirm other members can view it."],
+      ["search","Search or filter your vault","Find an item by signer, category or keyword."]]},
+    {name:"Marketplace · test mode",tasks:[
+      ["post","Post an item","List at least one item for sale or trade."],
+      ["buy","Buy an item","Complete a purchase from another tester."],
+      ["sell","Sell an item","Complete a sale on one of your listings."],
+      ["offer","Make an offer","Send an offer on another tester's item."],
+      ["counter","Counter an offer","Respond to an offer with a new price."],
+      ["accept","Accept or decline an offer","Finish an offer from start to end."]]},
+    {name:"Signer authentication",tasks:[
+      ["auth","Submit an item for authentication","Follow the full submission flow. No charge during testing."],
+      ["track","Track your submission","Check its status as it moves through review."]]},
+    {name:"Referrals",tasks:[
+      ["refcopy","Copy your referral link","Find it in your account dashboard."],
+      ["refjoin","Refer a collector who joins","Share your link and confirm they sign up."],
+      ["refpts","Check your points balance","Confirm referral points appear in your account."]]},
+    {name:"Feedback",tasks:[
+      ["fb","Report a bug","Tell us what broke, which screen you were on and what you tapped."],
+      ["fbconf","Flag something confusing","Point out a step, label or screen that wasn't clear."],
+      ["fbidea","Suggest an improvement","Share a feature or change that would help collectors."],
+      ["fblike","Tell us what you liked","Name the feature you'd use most."],
+      ["fbrate","Rate your overall experience","Give your overall rating at the end of testing."]]},
+    {name:"Categories",cats:true,tasks:CATS.map((c,i)=>["cat"+i,"Add an item in "+c,"One separate vault entry in this category."])}
+  ];
+  const ALL=GROUPS.flatMap(g=>g.tasks.map(t=>({id:t[0],name:t[1],hint:t[2],cat:!!g.cats,group:g.name})));
+  const KEY="signastry-tracker-v2";
+  let saved={}; try{ saved=JSON.parse(localStorage.getItem(KEY)||"{}")||{}; }catch(e){ saved={}; }
+  let filter="todo";
+  function persist(){ try{ localStorage.setItem(KEY,JSON.stringify(saved)); }catch(e){} }
+  const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  function render(){
+    const doneN=ALL.filter(t=>saved[t.id]).length;
+    const catsDone=ALL.filter(t=>t.cat&&saved[t.id]).length;
+    const bonus=catsDone===CATS.length;
+    const pts=doneN*PER+(bonus?BONUS:0);
+    document.getElementById("pts").textContent=pts.toLocaleString();
+    document.getElementById("pts-max").textContent="of "+(ALL.length*PER+BONUS).toLocaleString()+" possible";
+    document.getElementById("done").textContent=doneN+" / "+ALL.length;
+    document.getElementById("left").textContent=ALL.length-doneN;
+    const b=document.getElementById("bonus");
+    b.textContent=bonus?"Earned · +100":"Locked · "+catsDone+"/"+CATS.length;
+    b.classList.toggle("on",bonus);
+    document.getElementById("bar").style.width=(pts/(ALL.length*PER+BONUS)*100)+"%";
+
+    const wrap=document.getElementById("groups"); wrap.innerHTML="";
+    let shown=0;
+    GROUPS.forEach(g=>{
+      const items=g.tasks.filter(t=>filter==="all"||(filter==="done")===!!saved[t[0]]);
+      if(!items.length) return;
+      shown+=items.length;
+      const gd=g.tasks.filter(t=>saved[t[0]]).length;
+      const box=document.createElement("div"); box.className="task";
+      let html='<h3>'+esc(g.name)+'<small>'+gd+' / '+g.tasks.length+' · '+(gd*PER)+' pts</small></h3>';
+      items.forEach(t=>{
+        const on=!!saved[t[0]];
+        html+='<label class="chk'+(on?' is-done':'')+'"><input type="checkbox" id="'+t[0]+'"'+(on?' checked':'')+'><span><span>'+esc(t[1])+'</span><small>'+esc(t[2])+'</small></span><span class="val">'+(on?'✓ ':'')+'+'+PER+'</span></label>';
+      });
+      if(g.cats) html+='<div class="bonus-row"><span><strong>All-category bonus</strong> · '+catsDone+' of '+CATS.length+' categories</span><span class="val" style="color:'+(bonus?'var(--ok)':'var(--blue-strong)')+'">'+(bonus?'✓ ':'')+'+'+BONUS+'</span></div>';
+      box.innerHTML=html; wrap.appendChild(box);
+    });
+    const empty=document.getElementById("empty");
+    empty.hidden=shown>0;
+    if(!shown) empty.textContent=filter==="todo"?"You've tried every task. Thank you for testing Signastry!":"No completed tasks yet. Pick one from Not yet tried to start earning points.";
+  }
+  document.getElementById("groups").addEventListener("change",e=>{
+    const t=e.target; if(t.type!=="checkbox") return;
+    if(t.checked) saved[t.id]=true; else delete saved[t.id];
+    persist(); setTimeout(render,filter==="all"?0:350);
+    t.closest(".chk").classList.toggle("is-done",t.checked);
+  });
+  document.querySelectorAll(".seg button").forEach(btn=>btn.addEventListener("click",()=>{
+    filter=btn.dataset.f;
+    document.querySelectorAll(".seg button").forEach(x=>x.setAttribute("aria-selected",x===btn?"true":"false"));
+    render();
+  }));
+  const conf=document.getElementById("confirm"), rs=document.getElementById("reset");
+  rs.addEventListener("click",()=>{conf.hidden=false;rs.hidden=true;});
+  document.getElementById("reset-no").addEventListener("click",()=>{conf.hidden=true;rs.hidden=false;});
+  document.getElementById("reset-yes").addEventListener("click",()=>{saved={};persist();conf.hidden=true;rs.hidden=false;render();});
+  render();
+})();
+</script>
+
+<script>(function(){var m="";try{m=(new URLSearchParams(location.search).get("mref")||"").replace(/[^A-Za-z0-9-]/g,"")}catch(e){}var u=m?"/?mref="+encodeURIComponent(m):"/?join";document.querySelectorAll(".joinbtn").forEach(function(a){a.href=u})})();</script></body></html>
